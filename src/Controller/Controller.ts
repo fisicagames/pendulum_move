@@ -1,4 +1,4 @@
-import { Scene } from "@babylonjs/core";
+import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
 import { View } from "../View/View";
 import { Model } from "../Model/Model";
 
@@ -20,12 +20,21 @@ export class Controller {
         this.view.buttonMenuStart.onPointerUpObservable.add(() => {
             this.handleStartButton();
         });
+        this.view.buttonMenu.onPointerUpObservable.add(() => {
+            this.handleMenuButton();
+        });
     }
-
+    
     // Lógica a ser executada quando o botão de iniciar é pressionado
     private handleStartButton() {
         console.log("Button start pressed");
         // Aqui você poderia iniciar a lógica do jogo, como inicializar a cena do jogo
-        this.view.updateMenuVisibility(false); // Exemplo de ocultar o menu
+        this.view.updateMainMenuVisibility(false); // Exemplo de ocultar o menu
+        const camera  = this.scene.activeCamera as FollowCamera;
+        camera.target = new Vector3(0, 0, 0);
+    }
+    private handleMenuButton() {
+        this.view.updateMainMenuVisibility(true); // Exemplo de ocultar o menu
+        
     }
 }
