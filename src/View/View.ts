@@ -1,10 +1,9 @@
+// src\View\View.ts
 import { Scene } from "@babylonjs/core";
-import { Model } from "../Model/Model";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
 
-export class View implements IView{
-    private model: Model;
+export class View implements IView {
     private scene: Scene;
     private advancedTexture: AdvancedDynamicTexture;
     private rectangleMenu: Rectangle;
@@ -15,13 +14,11 @@ export class View implements IView{
     private rectangleTop: Rectangle;
     public textblockMenuMusic: TextBlock;
     private isMusicOn: boolean = true;
+    private buttonLang: Button;
 
-
-    constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture, model: Model) {
+    constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
         this.advancedTexture = advancedTexture;
-        this.model = model;
-
         this.initializeGUI();
     }
 
@@ -37,6 +34,7 @@ export class View implements IView{
         this.rectangleTop = this.advancedTexture.getControlByName("RectangleTop") as Rectangle;
         this.rectangleTop.isVisible = false;
         this.textblockMenuMusic = this.advancedTexture.getControlByName("TextblockMenuMusic") as TextBlock;
+        this.buttonLang = this.advancedTexture.getControlByName("ButtonLang") as Button;
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {
@@ -46,6 +44,7 @@ export class View implements IView{
         this.rectangleTouch.isVisible = !isVisible;
         this.rectangleTop.isVisible = !isVisible;
     }
+
     public onButtonMenuStart(callback: () => void): void {
         this.buttonMenuStart.onPointerUpObservable.add(callback);
     }
@@ -59,6 +58,10 @@ export class View implements IView{
             callback(); // Chama o callback passado
             this.toggleMusicIcon(); // Atualiza o ícone da música
         });
+    }
+
+    public onButtonLang(callback: () => void): void { // Método para botão de idioma
+        this.buttonLang.onPointerUpObservable.add(callback);
     }
     
     public toggleMusicIcon(): void {

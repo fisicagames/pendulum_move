@@ -1,24 +1,25 @@
+// src\Controller\Controller.ts
 import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
-import { Model } from "../Model/Model";
+import { IModel } from "../Model/IModel";
 import { IView } from "../View/IView";
 
 export class Controller {
-    private model: Model;
+    private model: IModel;
     private view: IView;
     private scene: Scene;
 
-    constructor(scene: Scene, model: Model, view: IView) {
+    constructor(scene: Scene, model: IModel, view: IView) {
         this.scene = scene;
         this.model = model;
         this.view = view;
         this.setupEventHandlers();
     }
 
-    // Configura os event handlers para a GUI usando callbacks
     private setupEventHandlers() {
         this.view.onButtonMenuStart(() => this.handleStartButton());
         this.view.onButtonMenu(() => this.handleMenuButton());
-        this.view.onToggleMusic(() => this.model.backgroundMusic.togglePlayback());
+        this.view.onToggleMusic(() => this.model.toggleMusicPlayback());
+        this.view.onButtonLang(() => this.handleLangButton()); // Evento para o botão de idioma
     }
 
     private handleStartButton() {
@@ -31,4 +32,9 @@ export class Controller {
         this.view.updateMainMenuVisibility(true);
     }
 
+    private handleLangButton() {
+        // Chama a função de troca de idioma que já foi implementada
+        // Aqui você pode chamar a lógica de tradução que você mencionou
+        console.log("Troca de idioma acionada!"); // Placeholder para a lógica de troca de idioma
+    }
 }
