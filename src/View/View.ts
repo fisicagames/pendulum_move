@@ -2,6 +2,7 @@
 import { Scene } from "@babylonjs/core";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
+import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
 
 export class View implements IView {
     private scene: Scene;
@@ -15,16 +16,23 @@ export class View implements IView {
     public textblockMenuMusic: TextBlock;
     private isMusicOn: boolean = true;
     private buttonLang: Button;
+    private languageSwitcher: ViewLanguageSwitcher;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
         this.advancedTexture = advancedTexture;
+        this.languageSwitcher = new ViewLanguageSwitcher();
         this.initializeGUI();
+    }
+    
+    public changeLanguage(): void {
+        this.languageSwitcher.changeLanguage(this.advancedTexture);
     }
 
     private initializeGUI() {
         this.buttonMenuStart = this.advancedTexture.getControlByName("ButtonMenuStart") as Button;
         this.buttonMenu = this.advancedTexture.getControlByName("ButtonMenu") as Button;
+        this.buttonMenu.isVisible = false;
         this.rectangleMenu = this.advancedTexture.getControlByName("RectangleMenu") as Rectangle;
         this.rectangleMenu.isVisible = true;
         this.textblockLevel = this.advancedTexture.getControlByName("TextblockLevel") as TextBlock;

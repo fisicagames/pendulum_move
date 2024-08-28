@@ -1,7 +1,7 @@
 // src/shared/LanguageManager.ts
 import { AdvancedDynamicTexture, TextBlock, Button } from "@babylonjs/gui";
 
-export class LanguageSwitcher {
+export class ViewLanguageSwitcher {
     private _lang: number;
     private _strings: Record<string, string[]>;
 

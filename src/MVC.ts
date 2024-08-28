@@ -5,7 +5,7 @@ import { Model } from "./Model/Model";
 import { IModel } from "./Model/IModel";
 import { View } from "./View/View";
 import { AdvancedDynamicTexture } from "@babylonjs/gui";
-import { LanguageSwitcher } from "./View/LanguageSwitcher"; // Importa a classe GuiLanguage
+import { ViewLanguageSwitcher } from "./View/ViewLanguageSwitcher"; // Importa a classe GuiLanguage
 
 export class MVC {
     private scene: Scene;
