@@ -1,50 +1,34 @@
 import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
-import { View } from "../View/View";
 import { Model } from "../Model/Model";
+import { IView } from "../View/IView";
 
 export class Controller {
     private model: Model;
-    private view: View;
+    private view: IView;
     private scene: Scene;
 
-    constructor(scene: Scene, model: Model, view: View) {
+    constructor(scene: Scene, model: Model, view: IView) {
         this.scene = scene;
         this.model = model;
         this.view = view;
-
         this.setupEventHandlers();
     }
 
-    // Configura os event handlers para a GUI
+    // Configura os event handlers para a GUI usando callbacks
     private setupEventHandlers() {
-        this.view.buttonMenuStart.onPointerUpObservable.add(() => {
-            this.handleStartButton();
-        });
-        this.view.buttonMenu.onPointerUpObservable.add(() => {
-            this.handleMenuButton();
-        });
-
-        let stateMusic = true;
-        this.view.textblockMenuMusic.text = "🔊";
-        this.view.textblockMenuMusic.onPointerUpObservable.add(() => {
-            this.model.backgroundMusic.togglePlayback();
-            stateMusic = !stateMusic;
-            this.view.textblockMenuMusic.text = stateMusic ? "🔊" : "🔈";
-        });
-
+        this.view.onButtonMenuStart(() => this.handleStartButton());
+        this.view.onButtonMenu(() => this.handleMenuButton());
+        this.view.onToggleMusic(() => this.model.backgroundMusic.togglePlayback());
     }
 
-    // Lógica a ser executada quando o botão de iniciar é pressionado
     private handleStartButton() {
-        console.log("Button start pressed");
-        // Aqui você poderia iniciar a lógica do jogo, como inicializar a cena do jogo
-        this.view.updateMainMenuVisibility(false); // Exemplo de ocultar o menu
+        this.view.updateMainMenuVisibility(false);
         const camera = this.scene.activeCamera as FollowCamera;
         camera.target = new Vector3(0, 0, 0);
     }
-    private handleMenuButton() {
-        this.view.updateMainMenuVisibility(true); // Exemplo de ocultar o menu
 
+    private handleMenuButton() {
+        this.view.updateMainMenuVisibility(true);
     }
 
 }
