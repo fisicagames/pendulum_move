@@ -12,6 +12,8 @@ export class View {
     private textblockLevel: TextBlock;
     private rectangleTouch: Rectangle;
     private rectangleTop: Rectangle;
+    public textblockMenuMusic: TextBlock;
+
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture, model: Model) {
         this.scene = scene;
@@ -32,6 +34,8 @@ export class View {
         this.rectangleTouch.isVisible = false;
         this.rectangleTop = this.advancedTexture.getControlByName("RectangleTop") as Rectangle;
         this.rectangleTop.isVisible = false;
+        this.textblockMenuMusic = this.advancedTexture.getControlByName("TextblockMenuMusic") as TextBlock;
+
 
 
     }
@@ -42,7 +46,5 @@ export class View {
         this.textblockLevel.isVisible = !isVisible;
         this.rectangleTouch.isVisible = !isVisible;
         this.rectangleTop.isVisible = !isVisible;
-        
-        
     }
 }

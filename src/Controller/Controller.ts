@@ -23,18 +23,28 @@ export class Controller {
         this.view.buttonMenu.onPointerUpObservable.add(() => {
             this.handleMenuButton();
         });
+
+        let stateMusic = true;
+        this.view.textblockMenuMusic.text = "🔊";
+        this.view.textblockMenuMusic.onPointerUpObservable.add(() => {
+            this.model.backgroundMusic.togglePlayback();
+            stateMusic = !stateMusic;
+            this.view.textblockMenuMusic.text = stateMusic ? "🔊" : "🔈";
+        });
+
     }
-    
+
     // Lógica a ser executada quando o botão de iniciar é pressionado
     private handleStartButton() {
         console.log("Button start pressed");
         // Aqui você poderia iniciar a lógica do jogo, como inicializar a cena do jogo
         this.view.updateMainMenuVisibility(false); // Exemplo de ocultar o menu
-        const camera  = this.scene.activeCamera as FollowCamera;
+        const camera = this.scene.activeCamera as FollowCamera;
         camera.target = new Vector3(0, 0, 0);
     }
     private handleMenuButton() {
         this.view.updateMainMenuVisibility(true); // Exemplo de ocultar o menu
-        
+
     }
+
 }
