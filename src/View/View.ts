@@ -5,7 +5,7 @@ import { IView } from "./IView";
 
 export class View implements IView {
     private scene: Scene;
-    private advancedTexture: AdvancedDynamicTexture;
+    public advancedTexture: AdvancedDynamicTexture;
     private rectangleMenu: Rectangle;
     public buttonMenuStart: Button;
     public buttonMenu: Button;

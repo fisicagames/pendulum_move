@@ -1,4 +1,7 @@
+import { AdvancedDynamicTexture } from "@babylonjs/gui";
+
 export interface IView {
+    advancedTexture: AdvancedDynamicTexture;
     onButtonMenuStart(callback: () => void): void;
     onButtonMenu(callback: () => void): void;
     onToggleMusic(callback: () => void): void;
