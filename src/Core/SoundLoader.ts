@@ -11,7 +11,6 @@ export class SoundLoader implements ISoundInterface {
         return SoundLoader.isMusicEnabled;
     }
 
-
     constructor(scene: Scene, name: string, path: string, autoplay: boolean) {
         this._autoPlay = autoplay;
         this._sound = new Sound(name, path, scene, () => {
@@ -50,7 +49,9 @@ export class SoundLoader implements ISoundInterface {
     public togglePlayback(): void {
         if (this._sound.isPlaying) {
             this.pause();
+            SoundLoader.isMusicEnabled = false;
         } else {
+            SoundLoader.isMusicEnabled = true;
             this.play();
         }
     }
