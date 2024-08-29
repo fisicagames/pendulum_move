@@ -2,8 +2,8 @@ import { Scene, Vector3, FollowCamera, UniversalCamera, AbstractMesh } from "@ba
 
 export class CameraInitializer {
     public static createFollowCamera(scene: Scene, targetMesh: AbstractMesh = null): FollowCamera {
-        const camera = new FollowCamera("FollowCam", new Vector3(-50, 50, 0), scene);
-        camera.radius = 50;
+        const camera = new FollowCamera("FollowCam", new Vector3(-20, 20, 0), scene);
+        camera.radius = 20;
         camera.heightOffset = 10;
         camera.rotationOffset = 0;
         camera.cameraAcceleration = 0.01;
