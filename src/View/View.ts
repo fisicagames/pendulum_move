@@ -1,5 +1,5 @@
 // src\View\View.ts
-import { Scene } from "@babylonjs/core";
+import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
 import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
@@ -75,5 +75,10 @@ export class View implements IView {
     public toggleMusicIcon(): void {
         this.isMusicOn = !this.isMusicOn; 
         this.textblockMenuMusic.text = this.isMusicOn ? "🔊" : "🔈";
+    }
+
+    public setCameraTarget(target: Vector3): void {
+        const camera = this.scene.activeCamera as FollowCamera;
+        camera.target = target;
     }
 }

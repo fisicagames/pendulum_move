@@ -1,8 +1,7 @@
 // src\Controller\Controller.ts
-import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
+import { Scene, Vector3 } from "@babylonjs/core";
 import { IModel } from "../Model/IModel";
 import { IView } from "../View/IView";
-import { ViewLanguageSwitcher } from "../View/ViewLanguageSwitcher"; // Importa a classe GuiLanguage
 
 export class Controller {
     private model: IModel;
@@ -25,8 +24,7 @@ export class Controller {
 
     private handleStartButton() {
         this.view.updateMainMenuVisibility(false);
-        const camera = this.scene.activeCamera as FollowCamera;
-        camera.target = new Vector3(0, 0, 0);
+        this.view.setCameraTarget(new Vector3(0, 0, 0));
     }
 
     private handleMenuButton() {
