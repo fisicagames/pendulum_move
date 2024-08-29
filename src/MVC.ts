@@ -1,5 +1,5 @@
 // src\MVC.ts
-import { Scene } from "@babylonjs/core";
+import { HavokPlugin, Scene } from "@babylonjs/core";
 import { Controller } from "./Controller/Controller";
 import { Model } from "./Model/Model";
 import { IModel } from "./Model/IModel";
@@ -14,10 +14,10 @@ export class MVC {
     private controller: Controller;
     private advancedTexture: AdvancedDynamicTexture;
 
-    constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
+    constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture, physicsPlugin: HavokPlugin ) {
         this.scene = scene;
         this.advancedTexture = advancedTexture;
-        this.model = new Model(this.scene);  // Model implements IModel
+        this.model = new Model(this.scene, physicsPlugin);  // Model implements IModel
         this.view = new View(this.scene, this.advancedTexture);
         this.controller = new Controller(this.scene, this.model, this.view); // Passa GuiLanguage para o Controller
     }

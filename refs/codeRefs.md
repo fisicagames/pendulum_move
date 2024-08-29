@@ -10,6 +10,10 @@ https://pixabay.com/pt/music/dubstep-chiptune-sherlock-holmes-anthem-215252/
 
 # Pendulum Simulation
 
+Cool: [https://playground.babylonjs.com/#UKDJG5#8]()
+
+With havak:
+
 [https://playground.babylonjs.com/#NAMYYQ#12]()
 
 const NUM_OF_BALLS = 15;
