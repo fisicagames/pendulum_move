@@ -24,7 +24,7 @@ export class Controller {
 
     private handleStartButton() {
         this.view.updateMainMenuVisibility(false);
-        this.view.setCameraTarget(new Vector3(0, 0, 0));
+        this.view.setCameraTarget(this.model.spherePlayer);
     }
 
     private handleMenuButton() {

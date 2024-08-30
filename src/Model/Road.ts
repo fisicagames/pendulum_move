@@ -1,8 +1,9 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3 } from "@babylonjs/core";
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType } from "@babylonjs/core";
 
 export class Road {
     private scene: Scene;
     private roadBlocks: Mesh[] = [];
+    plankPhysicsAggregate: any;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -23,6 +24,10 @@ export class Road {
             const material = new StandardMaterial(`blockMaterial${i}`, this.scene);
             material.diffuseColor = i % 2 === 0 ? new Color3(0.6, 0.6, 0.8) : new Color3(0.4, 0.4, 0.8);
             block.material = material;
+
+            this.plankPhysicsAggregate = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 0.5 }, this.scene);
+            this.plankPhysicsAggregate.body.setMotionType(PhysicsMotionType.ANIMATED);
+            //this.plankPhysicsAggregate.body.disablePreStep = true;
 
             this.roadBlocks.push(block);
         }

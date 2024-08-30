@@ -1,5 +1,5 @@
 // src\View\View.ts
-import { FollowCamera, Scene, Vector3 } from "@babylonjs/core";
+import { FollowCamera, Mesh, Scene, Vector3 } from "@babylonjs/core";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
 import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
@@ -77,8 +77,14 @@ export class View implements IView {
         this.textblockMenuMusic.text = this.isMusicOn ? "🔊" : "🔈";
     }
 
-    public setCameraTarget(target: Vector3): void {
+    public setCameraTarget(target: Vector3 | Mesh): void {
         const camera = this.scene.activeCamera as FollowCamera;
-        camera.target = target;
+        
+        if (target instanceof Mesh) {
+            camera.lockedTarget = target;
+        } else {
+            camera.lockedTarget = null; // Necessário para usar `camera.target`
+            camera.target = target;
+        }
     }
 }

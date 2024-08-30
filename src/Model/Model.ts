@@ -1,5 +1,5 @@
 // src\Model\Model.ts
-import { Scene, HavokPlugin } from "@babylonjs/core";
+import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
@@ -11,7 +11,9 @@ export class Model implements IModel {
     private allSounds: SoundLoader[] = [];
     private physicsPlugin: HavokPlugin;
     private pendulums: Pendulum[] = [];
-    private road: Road;  // Uso da nova classe Road
+    private road: Road;  
+    public spherePhysicsBody: PhysicsBody;
+    public spherePlayer: Mesh;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -19,13 +21,75 @@ export class Model implements IModel {
         this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/motivational-day-112790_compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
         this.initializeObstacles();
-        this.road = new Road(this.scene);  // Criação da estrada usando a nova classe
+        this.road = new Road(this.scene);
+
+        //Create main sphere: the player
+        this.spherePlayer = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
+        this.spherePlayer.position = new Vector3(-15,-1,0);
+        const material = new StandardMaterial(`sphereMaterial`, this.scene);
+        material.diffuseColor = new Color3(0.1, 0.9, 0.1);
+        this.spherePlayer.material = material;
+
+        this.spherePhysicsBody = new PhysicsBody(this.spherePlayer, PhysicsMotionType.DYNAMIC, false, this.scene);
+        this.spherePhysicsBody.setMassProperties({
+            mass: 1,
+            centerOfMass: new Vector3(0, 0, 0),
+            inertia: new Vector3(1, 1, 1),
+            inertiaOrientation: new Quaternion(0, 0, 0, 1)            
+        });
+       
+        const boxPhysicsShape = new PhysicsShapeBox(
+            new Vector3(0, 0, 0),        // center of the box
+            new Quaternion(0, 0, 0, 1),  // rotation of the box
+            new Vector3(2, 2, 2),        // dimensions of the box
+            this.scene
+        );
+
+        const boxPhysicsMaterial = {
+            friction: 0.05,
+            staticFriction: 0.1,
+            frictionCombine: PhysicsMaterialCombineMode.MAXIMUM,
+            restitution: 0.01
+        };
+        boxPhysicsShape.material = boxPhysicsMaterial;
+        this.spherePhysicsBody.shape = boxPhysicsShape;
+        this.spherePhysicsBody.setCollisionCallbackEnabled(true)
+        //end main sphere.
+
+        this.keyboardInput();
+        
+
+
+
+    }
+    private keyboardInput() {
+        this.scene.onKeyboardObservable.add((kbInfo) => {
+            switch (kbInfo.type) {
+                case KeyboardEventTypes.KEYDOWN:
+                    switch (kbInfo.event.key) {
+                        case "w":
+                            this.spherePhysicsBody.applyForce(new Vector3(50, 0, 0),Vector3.Zero());
+                        case "A":
+                        case "ArrowLeft":
+
+                            break;
+                        case "b":
+            
+                        case "d":
+                        case "D":
+                        case "ArrowRight":
+           
+                            break;
+                    }
+                    break;
+            }
+        });
     }
 
     private initializeObstacles(): void {
         const positions = [0, 20, 40, 50];
         positions.forEach((pos, index) => {
-            this.pendulums.push(new Pendulum(this.scene, pos, this.physicsPlugin));
+            this.pendulums.push(new Pendulum(this.scene, pos));
         });
     }
 

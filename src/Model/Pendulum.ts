@@ -1,4 +1,5 @@
-import { Scene, Mesh, MeshBuilder, PhysicsAggregate, PhysicsShapeType, DistanceConstraint } from "@babylonjs/core";
+import { Scene, Mesh, MeshBuilder, PhysicsAggregate, PhysicsShapeType, 
+        DistanceConstraint, StandardMaterial, Color3 } from "@babylonjs/core";
 
 export class Pendulum {
     private scene: Scene;
@@ -8,12 +9,12 @@ export class Pendulum {
     private boxR: Mesh;
     private rod: Mesh;
 
-    constructor(scene: Scene, xPos: number, physicsPlugin: any) {
+    constructor(scene: Scene, xPos: number) {
         this.scene = scene;
-        this.createPendulum(xPos, physicsPlugin);
+        this.createPendulum(xPos);
     }
 
-    private createPendulum(xPos: number, physicsPlugin: any): void {
+    private createPendulum(xPos: number): void {
         this.box = MeshBuilder.CreateBox("distanceBox", { height: 0.5, width: 0.5, depth: 16 }, this.scene);
         this.box.position.set(xPos, 4.5, 0);
         this.boxL = MeshBuilder.CreateBox("distanceBox", { height: 8, width: 0.5, depth: 0.5 }, this.scene);
@@ -23,6 +24,9 @@ export class Pendulum {
 
         this.sphere = MeshBuilder.CreateCylinder("distanceSphere", { height: 1, diameter: 1, tessellation: 16 }, this.scene);
         this.sphere.position.set(xPos, -5, -10);
+        const material = new StandardMaterial(`sphereMaterial`, this.scene);
+        material.diffuseColor = new Color3(0.9, 0.1, 0.1);
+        this.sphere.material = material;
 
         this.rod = MeshBuilder.CreateCylinder("pendulumRod", { height: 7, diameter: 0.1, tessellation: 16 }, this.scene);
         this.rod.position.set(xPos, 2, -1);
