@@ -1,7 +1,9 @@
+// src\Model\Model.ts
 import { Scene, HavokPlugin } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
+import { Road } from "./Road";  // Importa a nova classe Road
 
 export class Model implements IModel {
     private scene: Scene;
@@ -9,6 +11,7 @@ export class Model implements IModel {
     private allSounds: SoundLoader[] = [];
     private physicsPlugin: HavokPlugin;
     private pendulums: Pendulum[] = [];
+    private road: Road;  // Uso da nova classe Road
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -16,6 +19,7 @@ export class Model implements IModel {
         this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/motivational-day-112790_compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
         this.initializeObstacles();
+        this.road = new Road(this.scene);  // Criação da estrada usando a nova classe
     }
 
     private initializeObstacles(): void {
