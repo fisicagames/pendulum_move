@@ -1,5 +1,5 @@
 // src\Model\Model.ts
-import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes, PhysicsShapeSphere } from "@babylonjs/core";
+import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes, PhysicsShapeSphere, Texture } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
@@ -14,6 +14,7 @@ export class Model implements IModel {
     private road: Road;  
     public spherePhysicsBody: PhysicsBody;
     public spherePlayer: Mesh;
+    private velocityX: number;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -26,38 +27,53 @@ export class Model implements IModel {
         //Create main sphere: the player
         this.spherePlayer = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
         this.spherePlayer.position = new Vector3(-15,-1,0);
-        const material = new StandardMaterial(`sphereMaterial`, this.scene);
-        material.diffuseColor = new Color3(0.1, 0.9, 0.1);
+        const material = new StandardMaterial(`spherePlayerMaterial`, this.scene);
+        //material.diffuseColor = new Color3(0.1, 0.9, 0.1);
+        material.diffuseTexture = new Texture("./assets/textures/soccerball.jpg");
+
         this.spherePlayer.material = material;
 
         this.spherePhysicsBody = new PhysicsBody(this.spherePlayer, PhysicsMotionType.DYNAMIC, false, this.scene);
         this.spherePhysicsBody.setMassProperties({
-            mass: 5,
+            mass: 1,
             centerOfMass: new Vector3(0, 0, 0),
-            //inertia: new Vector3(1, 1, 1),
-            //inertiaOrientation: new Quaternion(0, 0, 0, 1)            
+            inertia: new Vector3(0.5, 0.5, 0.5),
+            inertiaOrientation: new Quaternion(0, 0, 0, 1)            
         });
        
         const boxPhysicsShape = new PhysicsShapeSphere(
             new Vector3(0, 0, 0),   // center of the sphere
-            1,                              // radius of the sphere
+            0.5,                              // radius of the sphere
             this.scene                           // scene of the shape
         );
 
         const boxPhysicsMaterial = {
-            friction: 0.05,
-            staticFriction: 0.1,
-            frictionCombine: PhysicsMaterialCombineMode.MAXIMUM,
-            restitution: 0.0
+            friction: 1.0,
+            staticFriction: 1.0,
+            //frictionCombine: PhysicsMaterialCombineMode.MAXIMUM,
+            restitution: 0.1
         };
-        //boxPhysicsShape.material = boxPhysicsMaterial;
+        boxPhysicsShape.material = boxPhysicsMaterial;
         this.spherePhysicsBody.shape = boxPhysicsShape;
+        this.spherePhysicsBody.setAngularDamping(0.8);
         this.spherePhysicsBody.setCollisionCallbackEnabled(true)
         //end main sphere.
 
         this.keyboardInput();
+
+        this.updateModels();
         
 
+
+
+    }
+    private updateModels() {
+        this.velocityX = 5;
+        this.scene.onBeforeRenderObservable.add(() => {
+            //this.velocityX += 0.01;
+            //this.spherePhysicsBody.setLinearVelocity(new Vector3(this.velocityX, 0, 0));
+
+        });
 
 
     }
@@ -67,16 +83,16 @@ export class Model implements IModel {
                 case KeyboardEventTypes.KEYDOWN:
                     switch (kbInfo.event.key) {
                         case "w":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(4, 0, 0),Vector3.Zero());
+                            this.spherePhysicsBody.applyImpulse(new Vector3(0.5, 0, 0),new Vector3(0,0,0));
                             break;
                         case "s":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(-4, 0, 0),Vector3.Zero());
+                            this.spherePhysicsBody.applyImpulse(new Vector3(-0.5, 0, 0),new Vector3(0,0,0));
                             break;
                         case "a":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0, 4),Vector3.Zero());
+                            this.spherePhysicsBody.applyImpulse(new Vector3(0, -0.1, 0),new Vector3(0,0,0));
                             break;
                         case "d":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0, -4),Vector3.Zero());
+                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0.1, 0),new Vector3(0,0,0));                            
                             break;
                         case "d":
                         case "D":

@@ -50,8 +50,8 @@ export class Controller {
             const targetPosition = this.followCameraTarget.position.add(offset);
             targetPosition.y = 6;
             targetPosition.z = 0;
-            this.followCamera.position = Vector3.Lerp(this.followCamera.position, targetPosition, 0.01); 
-            const targetOffset = this.followCameraTarget.position.subtract(new Vector3(0, -5, 0));
+            this.followCamera.position = Vector3.Lerp(this.followCamera.position, targetPosition, 0.1); 
+            const targetOffset = this.followCameraTarget.position.subtract(new Vector3(0, -3, 0));
             this.followCamera.setTarget(targetOffset); 
         }
     }
