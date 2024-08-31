@@ -7,5 +7,4 @@ export interface IView {
     onButtonLang(callback: () => void): void;
     updateMainMenuVisibility(isVisible: boolean): void;
     changeLanguage(): void;
-    setCameraTarget(target: Vector3 | Mesh): void;
 }

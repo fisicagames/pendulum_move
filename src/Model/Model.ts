@@ -1,5 +1,5 @@
 // src\Model\Model.ts
-import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes } from "@babylonjs/core";
+import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes, PhysicsShapeSphere } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
@@ -32,26 +32,25 @@ export class Model implements IModel {
 
         this.spherePhysicsBody = new PhysicsBody(this.spherePlayer, PhysicsMotionType.DYNAMIC, false, this.scene);
         this.spherePhysicsBody.setMassProperties({
-            mass: 1,
+            mass: 5,
             centerOfMass: new Vector3(0, 0, 0),
-            inertia: new Vector3(1, 1, 1),
-            inertiaOrientation: new Quaternion(0, 0, 0, 1)            
+            //inertia: new Vector3(1, 1, 1),
+            //inertiaOrientation: new Quaternion(0, 0, 0, 1)            
         });
        
-        const boxPhysicsShape = new PhysicsShapeBox(
-            new Vector3(0, 0, 0),        // center of the box
-            new Quaternion(0, 0, 0, 1),  // rotation of the box
-            new Vector3(2, 2, 2),        // dimensions of the box
-            this.scene
+        const boxPhysicsShape = new PhysicsShapeSphere(
+            new Vector3(0, 0, 0),   // center of the sphere
+            1,                              // radius of the sphere
+            this.scene                           // scene of the shape
         );
 
         const boxPhysicsMaterial = {
             friction: 0.05,
             staticFriction: 0.1,
             frictionCombine: PhysicsMaterialCombineMode.MAXIMUM,
-            restitution: 0.01
+            restitution: 0.0
         };
-        boxPhysicsShape.material = boxPhysicsMaterial;
+        //boxPhysicsShape.material = boxPhysicsMaterial;
         this.spherePhysicsBody.shape = boxPhysicsShape;
         this.spherePhysicsBody.setCollisionCallbackEnabled(true)
         //end main sphere.
@@ -68,18 +67,23 @@ export class Model implements IModel {
                 case KeyboardEventTypes.KEYDOWN:
                     switch (kbInfo.event.key) {
                         case "w":
-                            this.spherePhysicsBody.applyForce(new Vector3(50, 0, 0),Vector3.Zero());
-                        case "A":
-                        case "ArrowLeft":
-
+                            this.spherePhysicsBody.applyImpulse(new Vector3(4, 0, 0),Vector3.Zero());
                             break;
-                        case "b":
-            
+                        case "s":
+                            this.spherePhysicsBody.applyImpulse(new Vector3(-4, 0, 0),Vector3.Zero());
+                            break;
+                        case "a":
+                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0, 4),Vector3.Zero());
+                            break;
+                        case "d":
+                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0, -4),Vector3.Zero());
+                            break;
                         case "d":
                         case "D":
                         case "ArrowRight":
-           
-                            break;
+
+                        default:
+                            
                     }
                     break;
             }

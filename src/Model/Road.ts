@@ -3,7 +3,9 @@ import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAgg
 export class Road {
     private scene: Scene;
     private roadBlocks: Mesh[] = [];
-    plankPhysicsAggregate: any;
+    private plankPhysicsAggregate: PhysicsAggregate;
+    private plankPhysicsAggregateL: PhysicsAggregate;
+    private plankPhysicsAggregateR: PhysicsAggregate;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -20,13 +22,24 @@ export class Road {
             const block = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight, width: blockWidth, depth: blockDepth }, this.scene);
             block.position = new Vector3(i * blockWidth-15, -3, 0);
 
+            const blockL = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight*6, width: blockWidth, depth: blockDepth }, this.scene);
+            blockL.position = new Vector3(i * blockWidth-15, -2, 16.5);
+            const blockR = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight*6, width: blockWidth, depth: blockDepth }, this.scene);
+            blockR.position = new Vector3(i * blockWidth-15, -2, -16.5);
+
             // Alterna a cor entre dois tons
             const material = new StandardMaterial(`blockMaterial${i}`, this.scene);
             material.diffuseColor = i % 2 === 0 ? new Color3(0.6, 0.6, 0.8) : new Color3(0.4, 0.4, 0.8);
             block.material = material;
+            blockL.material = material;
+            blockR.material = material;
 
-            this.plankPhysicsAggregate = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 0.5 }, this.scene);
+            this.plankPhysicsAggregate = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 0.0 }, this.scene);
+            this.plankPhysicsAggregateL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 0.0 }, this.scene);
+            this.plankPhysicsAggregateR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 0.0 }, this.scene);
             this.plankPhysicsAggregate.body.setMotionType(PhysicsMotionType.ANIMATED);
+            this.plankPhysicsAggregateL.body.setMotionType(PhysicsMotionType.ANIMATED);
+            this.plankPhysicsAggregateR.body.setMotionType(PhysicsMotionType.ANIMATED);
             //this.plankPhysicsAggregate.body.disablePreStep = true;
 
             this.roadBlocks.push(block);
