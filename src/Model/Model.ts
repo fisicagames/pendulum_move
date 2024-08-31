@@ -37,7 +37,7 @@ export class Model implements IModel {
         this.spherePhysicsBody.setMassProperties({
             mass: 1,
             centerOfMass: new Vector3(0, 0, 0),
-            inertia: new Vector3(0.5, 0.5, 0.5),
+            inertia: new Vector3(0.1, 0.1, 0.1),
             inertiaOrientation: new Quaternion(0, 0, 0, 1)            
         });
        
@@ -83,16 +83,18 @@ export class Model implements IModel {
                 case KeyboardEventTypes.KEYDOWN:
                     switch (kbInfo.event.key) {
                         case "w":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(0.5, 0, 0),new Vector3(0,0,0));
+                            this.spherePhysicsBody.applyForce(new Vector3(25, 0, 0),this.spherePlayer.absolutePosition);
                             break;
                         case "s":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(-0.5, 0, 0),new Vector3(0,0,0));
+                            if(this.spherePhysicsBody.getLinearVelocity().x > 0){
+                                this.spherePhysicsBody.applyForce(new Vector3(-25, 0, 0),this.spherePlayer.absolutePosition);
+                            }
                             break;
                         case "a":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(0, -0.1, 0),new Vector3(0,0,0));
+                            this.spherePhysicsBody.applyForce(new Vector3(0, 0, 25),this.spherePlayer.absolutePosition);
                             break;
                         case "d":
-                            this.spherePhysicsBody.applyImpulse(new Vector3(0, 0.1, 0),new Vector3(0,0,0));                            
+                            this.spherePhysicsBody.applyForce(new Vector3(0, 0, -25),this.spherePlayer.absolutePosition);                            
                             break;
                         case "d":
                         case "D":
