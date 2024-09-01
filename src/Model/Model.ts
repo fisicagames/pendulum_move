@@ -3,7 +3,7 @@ import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, Phy
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
-import { Road } from "./Road";  // Importa a nova classe Road
+import { Road } from "./Road";  
 
 export class Model implements IModel {
     private scene: Scene;
@@ -24,7 +24,7 @@ export class Model implements IModel {
         this.initializeObstacles();
         this.road = new Road(this.scene);
 
-        //Create main sphere: the player
+        //Start create the main sphere: the player
         this.spherePlayer = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
         this.spherePlayer.position = new Vector3(-15, -1, 0);
         this.spherePlayer.rotate(new Vector3(1, 0, 0), 10)
@@ -44,8 +44,8 @@ export class Model implements IModel {
 
         const boxPhysicsShape = new PhysicsShapeSphere(
             new Vector3(0, 0, 0),   // center of the sphere
-            0.5,                              // radius of the sphere
-            this.scene                           // scene of the shape
+            0.5,                    // radius of the sphere
+            this.scene              // scene of the shape
         );
 
         const boxPhysicsMaterial = {
@@ -61,21 +61,15 @@ export class Model implements IModel {
         //end main sphere.
 
         this.keyboardInput();
-
         this.updateModels();
-
-
-
-
     }
+
     private updateModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
             //this.velocityX += 0.01;
             //this.spherePhysicsBody.setLinearVelocity(new Vector3(this.velocityX, 0, 0));
-
         });
-
 
     }
     private keyboardInput() {
