@@ -1,4 +1,4 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType } from "@babylonjs/core";
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType, ShadowGenerator } from "@babylonjs/core";
 
 export class Road {
     private scene: Scene;
@@ -20,8 +20,7 @@ export class Road {
 
         for (let i = 0; i < numberOfBlocks; i++) {
             const block = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight, width: blockWidth, depth: blockDepth }, this.scene);
-            block.position = new Vector3(i * blockWidth-15, -3, 0);
-
+            block.position = new Vector3(i * blockWidth-15, -3, 0);            
             const blockL = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight*6, width: blockWidth, depth: 2 }, this.scene);
             blockL.position = new Vector3(i * blockWidth-15, -2, 9.5);
             const blockR = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight*6, width: blockWidth, depth: 2 }, this.scene);
