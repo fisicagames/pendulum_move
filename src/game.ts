@@ -1,18 +1,25 @@
+import { Engine } from "@babylonjs/core";
 import { CanvasInitializer } from "./Core/CanvasInitializer";
 import { EngineInitializer } from "./Core/EngineInitializer";
 import { InspectorDebugModel } from "./Core/InspectorDebugModel";
 import { SceneInitializer } from "./Core/SceneInitializer";
 
 export class Game {
+    canvas: HTMLCanvasElement;
+    engine: Engine;
     constructor() {
-        const canvas = CanvasInitializer.createAndAdjustCanvas();
-        const engine = EngineInitializer.createEngine(canvas);
-        const mainScene = new SceneInitializer(canvas, engine);
+        this.canvas = CanvasInitializer.createAndAdjustCanvas();
+        this.engine = EngineInitializer.createEngine(this.canvas);
+
+    }
+    public startMainScene() {
+        const mainScene = new SceneInitializer(this.canvas, this.engine);
         InspectorDebugModel.enable(mainScene.scene); //Shift+d
     }
 }
 
 // Export a function to instantiate the Game class
 export function startGame(): void {
-    new Game();
+    const game = new Game();
+    game.startMainScene();
 }

@@ -1,0 +1,185 @@
+classDiagram
+class IModel {
+    +toggleMusicPlayback(): void
+    +spherePlayer: Mesh
+}
+<<Interface>> IModel
+class IView {
+    +onButtonMenuStart(callback: () => void): void
+    +onButtonMenu(callback: () => void): void
+    +onToggleMusic(callback: () => void): void
+    +onButtonLang(callback: () => void): void
+    +updateMainMenuVisibility(isVisible: boolean): void
+    +changeLanguage(): void
+}
+<<Interface>> IView
+class Controller {
+    -scene: Scene
+    -model: IModel
+    -view: IView
+    -followCamera: FollowCamera
+    -followCameraTarget: Mesh
+    -setupCamera(): void
+    +setCameraTarget(target: Mesh | Vector3): void
+    -updateCameraPosition(): void
+    -startGame(): void
+    -showMenu(): void
+    -toggleMusic(): void
+    -changeLanguage(): void
+}
+class CameraInitializer {
+    +createFollowCamera(scene: Scene, targetMesh?: AbstractMesh)$: FollowCamera
+    +createUniversalCamera(scene: Scene, canvas: HTMLCanvasElement)$: UniversalCamera
+}
+class CanvasInitializer {
+    -adjustCanvasSize(canvas: HTMLCanvasElement)$: void
+    +createAndAdjustCanvas()$: HTMLCanvasElement
+}
+class EngineInitializer {
+    +createEngine(canvas: HTMLCanvasElement)$: Engine
+}
+class GUILoader {
+    +loadGUI(scene: Scene, url: string)$: Promise<AdvancedDynamicTexture>
+}
+class InspectorDebugModel {
+    -toggleCameraCallback$: (ev: KeyboardEvent) => void
+    -toggleDebugCallback$: (ev: KeyboardEvent) => void
+    -toggleJoystickCallback$: (ev: KeyboardEvent) => void
+    -setupEventListeners(scene: Scene)$: void
+    -toggleCamera(scene: Scene)$: void
+    -toggleInspectorVisibility(scene: Scene)$: void
+    -toggleJoystick()$: void
+    +disable()$: void
+    +enable(scene: Scene)$: void
+}
+class ISoundInterface {
+    +toggleAllMusicsEnabled(): boolean
+    +play(): void
+    +pause(): void
+    +togglePlayback(): void
+    +setVolume(volume: number): void
+    +getVolume(): number
+    +setLoop(loop: boolean): void
+}
+<<Interface>> ISoundInterface
++optimizeMaterials(scene: Scene, materialNames: string[]): void
+class HavokPhysicsEngine {
+    +initialize(scene: Scene): Promise<HavokPlugin>
+}
+class PhysicsDebugger {
+    +enablePhysicsViewer(scene: Scene, enable: boolean)$: void
+    -hasPhysicsBody(mesh: any)$: boolean
+}
+ISoundInterface <|.. SoundLoader
+class SoundLoader {
+    -_sound: Sound
+    -_autoPlay: boolean
+    +toggleAllMusicsEnabled(): boolean
+    -setupVisibilityHandler(): void
+    +pause(): void
+    +play(): void
+    +togglePlayback(): void
+    +setVolume(volume: number): void
+    +getVolume(): number
+    +setLoop(loop: boolean): void
+    +isMusicEnabled$: boolean
+}
+class Pendulum {
+    -scene: Scene
+    -sphere: Mesh
+    -box: Mesh
+    -boxL: Mesh
+    -boxR: Mesh
+    -rod: Mesh
+    -createPendulum(xPos: number): void
+}
+class Road {
+    -scene: Scene
+    -roadBlocks: Mesh[]
+    -roadPhysicsAggregate: PhysicsAggregate
+    -roadPhysicsAggregateL: PhysicsAggregate
+    -roadPhysicsAggregateR: PhysicsAggregate
+    -lightMaterial: StandardMaterial
+    -darkMaterial: StandardMaterial
+    -initializeMaterials(): void
+    -createRoad(): void
+    +getBlocks(): Mesh[]
+}
+IModel <|.. Model
+class Model {
+    -scene: Scene
+    +backgroundMusic: SoundLoader
+    -allSounds: SoundLoader[]
+    -physicsPlugin: HavokPlugin
+    -pendulums: Pendulum[]
+    -road: Road
+    +spherePhysicsBody: PhysicsBody
+    +spherePlayer: Mesh
+    -velocityX: number
+    -updateModels(): void
+    -keyboardInput(): void
+    -initializeObstacles(): void
+    +toggleMusicPlayback(): void
+}
+class ViewLanguageSwitcher {
+    -_lang: number
+    -_strings: Record<string, string[]>
+    +changeLanguage(advancedTexture: AdvancedDynamicTexture): void
+    +updateText(advancedTexture: AdvancedDynamicTexture): void
+    +getCurrentLanguage(): number
+    +getTranslation(key: string): string
+}
+IView <|.. View
+class View {
+    -scene: Scene
+    +advancedTexture: AdvancedDynamicTexture
+    -rectangleMenu: Rectangle
+    +buttonMenuStart: Button
+    +buttonMenu: Button
+    -textblockLevel: TextBlock
+    -rectangleTouch: Rectangle
+    -rectangleTop: Rectangle
+    +textblockMenuMusic: TextBlock
+    -isMusicOn: boolean
+    -buttonLang: Button
+    -languageSwitcher: ViewLanguageSwitcher
+    +changeLanguage(): void
+    -initializeGUI(): void
+    +updateMainMenuVisibility(isVisible: boolean): void
+    +onButtonMenuStart(callback: () => void): void
+    +onButtonMenu(callback: () => void): void
+    +onToggleMusic(callback: () => void): void
+    +onButtonLang(callback: () => void): void
+    +toggleMusicIcon(): void
+}
+class MVC {
+    -scene: Scene
+    -model: Model
+    -view: View
+    -controller: Controller
+    -advancedTexture: AdvancedDynamicTexture
+}
+class SceneInitializer {
+    -_canvas: HTMLCanvasElement
+    -_engine: Engine
+    -_scene: Scene
+    -mvc: MVC
+    +scene: Scene
+    -initialize(): Promise<void>
+    -sceneLoop(): void
+    -sceneOptimizer(): void
+}
+class Game {
+}
++startGame(): void
+Controller ..> "1" IModel
+Controller ..> "1" IView
+Model ..> "1" SoundLoader
+Model ..> "*" SoundLoader
+Model ..> "*" Pendulum
+Model ..> "1" Road
+View ..> "1" ViewLanguageSwitcher
+MVC ..> "1" Model
+MVC ..> "1" View
+MVC ..> "1" Controller
+SceneInitializer ..> "1" MVC
