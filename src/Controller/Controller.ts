@@ -1,7 +1,8 @@
-// src\Controller\Controller.ts
+// src/Controller/Controller.ts
 import { Scene, Vector3, Mesh, FollowCamera } from "@babylonjs/core";
 import { IModel } from "../Model/IModel";
 import { IView } from "../View/IView";
+import { CameraController } from "./CameraController";
 
 export class Controller {
     private scene: Scene;
@@ -16,19 +17,18 @@ export class Controller {
         this.view = view;
         this.followCamera = this.scene.activeCamera as FollowCamera;
 
-        // Exemplo de chamada para configurar a câmera quando necessário
         this.setupCamera();
 
-        // Registrar eventos e callbacks relacionados ao View e Model
         this.view.onButtonMenuStart(() => this.startGame());
         this.view.onButtonMenu(() => this.showMenu());
         this.view.onToggleMusic(() => this.toggleMusic());
         this.view.onButtonLang(() => this.changeLanguage());
 
-        // Se houver atualizações de posição na câmera, gerencie aqui
         scene.onBeforeRenderObservable.add(() => {
             this.updateCameraPosition();
         });
+
+        // Inicializa o monitor de performance
     }
 
     private setupCamera(): void {
@@ -39,20 +39,14 @@ export class Controller {
         if (target instanceof Mesh) {
             this.followCameraTarget = target;
         } else if (target instanceof Vector3) {
-            this.followCamera.lockedTarget = null; // Remover qualquer target fixo
-            this.followCamera.setTarget(target);   // Definir a nova posição
+            this.followCamera.lockedTarget = null; 
+            this.followCamera.setTarget(target);   
         }
     }
 
     private updateCameraPosition(): void {
         if (this.followCameraTarget && this.followCamera) {
-            const offset = new Vector3(-15, 6, 0); 
-            const targetPosition = this.followCameraTarget.position.add(offset);
-            targetPosition.y = 4;
-            //targetPosition.z = 0;
-            this.followCamera.position = targetPosition;// Vector3.Lerp(this.followCamera.position, targetPosition, 0.05); 
-            const targetOffset = this.followCameraTarget.position.subtract(new Vector3(0, -3, 0));
-            this.followCamera.setTarget(targetOffset); 
+            CameraController.updatePosition(this.followCamera, this.followCameraTarget);
         }
     }
 
