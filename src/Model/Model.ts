@@ -21,7 +21,7 @@ export class Model implements IModel {
         this.physicsPlugin = physicsPlugin;
         this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/motivational-day-112790_compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
-        this.initializeObstacles();
+        this.initializePendulums();
         this.road = new Road(this.scene);
 
         // Criação da esfera principal do jogador usando SpherePlayer
@@ -29,6 +29,7 @@ export class Model implements IModel {
 
         this.keyboardInput();
         this.updateModels();
+        
     }
 
     private updateModels() {
@@ -69,10 +70,16 @@ export class Model implements IModel {
         });
     }
 
-    private initializeObstacles(): void {
-        const positions = [0, 20, 40, 50, 60, 70, 80, 100];
-        positions.forEach((pos, index) => {
+    private initializePendulums(): void {
+        const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100];
+        pendulumPositions.forEach((pos, index) => {
             this.pendulums.push(new Pendulum(this.scene, pos));
+        });
+
+        this.scene.registerBeforeRender(() => {
+            this.pendulums.forEach(pendulum => {
+                pendulum.adjustPendulumRodAngle();
+            });
         });
     }
 

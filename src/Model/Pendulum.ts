@@ -1,5 +1,7 @@
 import { Scene, Mesh, MeshBuilder, PhysicsAggregate, PhysicsShapeType, 
-        DistanceConstraint, StandardMaterial, Color3 } from "@babylonjs/core";
+        DistanceConstraint, StandardMaterial, Color3, 
+        Quaternion,
+        Vector3} from "@babylonjs/core";
 
 export class Pendulum {
     private scene: Scene;
@@ -8,6 +10,7 @@ export class Pendulum {
     private boxL: Mesh;
     private boxR: Mesh;
     private rod: Mesh;
+    defaultUp: Vector3;
 
     constructor(scene: Scene, xPos: number) {
         this.scene = scene;
@@ -15,6 +18,10 @@ export class Pendulum {
     }
 
     private createPendulum(xPos: number): void {
+
+        this.defaultUp = new Vector3(0,1,0);
+
+
         this.box = MeshBuilder.CreateBox("distanceBox", { height: 0.5, width: 0.5, depth: 16 }, this.scene);
         this.box.position.set(xPos, 4.5, 0);
         this.boxL = MeshBuilder.CreateBox("distanceBox", { height: 8, width: 0.5, depth: 0.5 }, this.scene);
@@ -36,5 +43,25 @@ export class Pendulum {
 
         let distanceJoint = new DistanceConstraint(6.5, this.scene);
         aggSphere.body.addConstraint(aggBox.body, distanceJoint);
+    }
+
+    public adjustPendulumRodAngle() {
+        
+        const direction = this.box.position.subtract(this.sphere.position);
+        direction.normalize();
+
+        //compute the difference in the default orientation of the cylinder to the orientation of the direction
+        const rot = Quaternion.FromUnitVectorsToRef(this.defaultUp, direction, new Quaternion());
+
+        // apply to the cylinder
+        this.rod.rotationQuaternion = rot;
+        this.sphere.rotationQuaternion = rot;
+
+        // compute the midpoint between the ball and box
+        const midp = this.box.position.add(this.sphere.position).scale(0.5);
+
+        this.rod.position = midp;
+
+
     }
 }
