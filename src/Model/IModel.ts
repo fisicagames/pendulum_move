@@ -1,6 +1,7 @@
 import { Mesh } from "@babylonjs/core";
+import { SpherePlayer } from "./SpherePlayer";
 
 export interface IModel {
     toggleMusicPlayback(): void;
-    spherePlayer: Mesh;
+    spherePlayer: SpherePlayer;
 }
