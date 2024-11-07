@@ -1,10 +1,10 @@
-// src\Model\Model.ts
-import { Scene, HavokPlugin, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeBox, PhysicsMaterialCombineMode, Mesh, KeyboardEventTypes, PhysicsShapeSphere, Texture } from "@babylonjs/core";
+// src/Model/Model.ts
+import { Scene, HavokPlugin, KeyboardEventTypes, Vector3 } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { Pendulum } from "./Pendulum";
-import { Road } from "./Road";  
-import { SpherePlayer } from "./SpherePlayer";
+import { Road } from "./Road";
+import { SpherePlayer } from "./SpherePlayer";  // Importa o novo módulo SpherePlayer
 
 export class Model implements IModel {
     private scene: Scene;
@@ -13,7 +13,7 @@ export class Model implements IModel {
     private physicsPlugin: HavokPlugin;
     private pendulums: Pendulum[] = [];
     private road: Road;
-    public spherePlayer: SpherePlayer;
+    public spherePlayer: SpherePlayer;  // Instância da classe SpherePlayer
     private velocityX: number;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
@@ -24,8 +24,8 @@ export class Model implements IModel {
         this.initializeObstacles();
         this.road = new Road(this.scene);
 
-        this.spherePlayer = new SpherePlayer(this.scene, this.physicsPlugin);
-
+        // Criação da esfera principal do jogador usando SpherePlayer
+        this.spherePlayer = new SpherePlayer(scene, physicsPlugin);
 
         this.keyboardInput();
         this.updateModels();
@@ -34,11 +34,10 @@ export class Model implements IModel {
     private updateModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            //this.velocityX += 0.01;
-            //this.spherePhysicsBody.setLinearVelocity(new Vector3(this.velocityX, 0, 0));
+            // Atualização da velocidade da esfera principal, se necessário
         });
-
     }
+
     private keyboardInput() {
         this.scene.onKeyboardObservable.add((kbInfo) => {
             switch (kbInfo.type) {
@@ -47,11 +46,9 @@ export class Model implements IModel {
                         case "w":
                             if (this.spherePlayer.mesh.position.z > 2) {
                                 this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, -10), this.spherePlayer.mesh.absolutePosition);
-                            }
-                            else if (this.spherePlayer.mesh.position.z < -2) {
+                            } else if (this.spherePlayer.mesh.position.z < -2) {
                                 this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, 10), this.spherePlayer.mesh.absolutePosition);
-                            }
-                            else {
+                            } else {
                                 this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, 0), this.spherePlayer.mesh.absolutePosition);
                             }
                             break;
@@ -66,8 +63,6 @@ export class Model implements IModel {
                         case "d":
                             this.spherePlayer.physicsBody.applyForce(new Vector3(0, -10, -25), this.spherePlayer.mesh.absolutePosition);
                             break;
-                        case "D":
-                        case "ArrowRight":
                     }
                     break;
             }
@@ -75,7 +70,7 @@ export class Model implements IModel {
     }
 
     private initializeObstacles(): void {
-        const positions = [0, 20, 40, 50];
+        const positions = [0, 20, 40, 50, 60, 70, 80, 100];
         positions.forEach((pos, index) => {
             this.pendulums.push(new Pendulum(this.scene, pos));
         });

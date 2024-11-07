@@ -1,4 +1,4 @@
-import { Mesh } from "@babylonjs/core";
+// src/Model/IModel.ts
 import { SpherePlayer } from "./SpherePlayer";
 
 export interface IModel {

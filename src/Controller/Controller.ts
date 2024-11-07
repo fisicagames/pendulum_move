@@ -32,7 +32,7 @@ export class Controller {
     }
 
     private setupCamera(): void {
-        this.setCameraTarget(this.model.spherePlayer);
+        this.setCameraTarget(this.model.spherePlayer.mesh);
     }
 
     public setCameraTarget(target: Vector3 | Mesh): void {
