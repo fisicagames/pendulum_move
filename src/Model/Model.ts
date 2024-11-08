@@ -2,40 +2,42 @@
 import { Scene, HavokPlugin, KeyboardEventTypes, Vector3 } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
-import { Pendulum } from "./Pendulum";
 import { Road } from "./Road";
 import { SpherePlayer } from "./SpherePlayer";  // Importa o novo módulo SpherePlayer
+import { PendulumsManager } from "./PendulunsManager";
 
 export class Model implements IModel {
     private scene: Scene;
     public backgroundMusic: SoundLoader;
     private allSounds: SoundLoader[] = [];
     private physicsPlugin: HavokPlugin;
-    private pendulums: Pendulum[] = [];
     private road: Road;
     public spherePlayer: SpherePlayer;  // Instância da classe SpherePlayer
     private velocityX: number;
+    private pendulumsManager: PendulumsManager; // Instância do PendulumsManager
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
         this.physicsPlugin = physicsPlugin;
         this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/motivational-day-112790_compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
-        this.initializePendulums();
         this.road = new Road(this.scene);
+
+        // Instancia o PendulumsManager
+        this.pendulumsManager = new PendulumsManager(this.scene);
 
         // Criação da esfera principal do jogador usando SpherePlayer
         this.spherePlayer = new SpherePlayer(scene, physicsPlugin);
 
         this.keyboardInput();
         this.updateModels();
-
     }
 
     private updateModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            // Atualização da velocidade da esfera principal, se necessário
+            // Atualiza os pendulums a cada quadro
+            this.pendulumsManager.updatePendulums();
         });
     }
 
@@ -74,19 +76,6 @@ export class Model implements IModel {
                     this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
                     break;
             }
-        });
-    }
-
-    private initializePendulums(): void {
-        const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100, 120, 140, 160, 180];
-        pendulumPositions.forEach((pos, index) => {
-            this.pendulums.push(new Pendulum(this.scene, pos));
-        });
-
-        this.scene.registerBeforeRender(() => {
-            this.pendulums.forEach(pendulum => {
-                pendulum.adjustPendulumRodAngle();
-            });
         });
     }
 

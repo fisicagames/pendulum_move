@@ -29,7 +29,7 @@ export class Pendulum {
         this.boxR.position.set(xPos, 1, 8);
 
         this.cylinder = MeshBuilder.CreateCylinder("cylinderPendulumMass", { height: 1, diameter: 1, tessellation: 8 }, this.scene);
-        this.cylinder.position.set(xPos, -5, -8);
+        this.cylinder.position.set(xPos, -5, Math.random() > 0.5 ? 8 : -8);
         const material = new StandardMaterial(`cylinderPendulumMassMaterial`, this.scene);
         material.diffuseColor = new Color3(0.9, 0.1, 0.1);
         this.cylinder.material = material;
