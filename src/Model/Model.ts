@@ -29,7 +29,7 @@ export class Model implements IModel {
 
         this.keyboardInput();
         this.updateModels();
-        
+
     }
 
     private updateModels() {
@@ -40,38 +40,45 @@ export class Model implements IModel {
     }
 
     private keyboardInput() {
+        let forceAccumulator = new Vector3(0, 0, 0);
+    
         this.scene.onKeyboardObservable.add((kbInfo) => {
             switch (kbInfo.type) {
                 case KeyboardEventTypes.KEYDOWN:
-                    switch (kbInfo.event.key) {
-                        case "w":
-                            if (this.spherePlayer.mesh.position.z > 2) {
-                                this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, -10), this.spherePlayer.mesh.absolutePosition);
-                            } else if (this.spherePlayer.mesh.position.z < -2) {
-                                this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, 10), this.spherePlayer.mesh.absolutePosition);
-                            } else {
-                                this.spherePlayer.physicsBody.applyForce(new Vector3(25, -10, 0), this.spherePlayer.mesh.absolutePosition);
-                            }
-                            break;
-                        case "s":
-                            if (this.spherePlayer.physicsBody.getLinearVelocity().x > 0) {
-                                this.spherePlayer.physicsBody.applyForce(new Vector3(-25, -10, 0), this.spherePlayer.mesh.absolutePosition);
-                            }
-                            break;
-                        case "a":
-                            this.spherePlayer.physicsBody.applyForce(new Vector3(0, -10, 25), this.spherePlayer.mesh.absolutePosition);
-                            break;
-                        case "d":
-                            this.spherePlayer.physicsBody.applyForce(new Vector3(0, -10, -25), this.spherePlayer.mesh.absolutePosition);
-                            break;
+                    // Resetamos o acumulador a cada evento de KEYDOWN para recalcular a força
+                    forceAccumulator.set(0, 0, 0);
+    
+                    // Checamos quais teclas estão sendo pressionadas e somamos as forças
+                    if (kbInfo.event.key === "w") {
+                        if (this.spherePlayer.mesh.position.z > 2) {
+                            forceAccumulator.addInPlace(new Vector3(25, -10, -10));
+                        } else if (this.spherePlayer.mesh.position.z < -2) {
+                            forceAccumulator.addInPlace(new Vector3(25, -10, 10));
+                        } else {
+                            forceAccumulator.addInPlace(new Vector3(25, -10, 0));
+                        }
                     }
+                    if (kbInfo.event.key === "s") {
+                        if (this.spherePlayer.physicsBody.getLinearVelocity().x > 0) {
+                            forceAccumulator.addInPlace(new Vector3(-25, -10, 0));
+                        }
+                    }
+                    if (kbInfo.event.key === "a") {
+                        forceAccumulator.addInPlace(new Vector3(0, -10, 25));
+                    }
+                    if (kbInfo.event.key === "d") {
+                        forceAccumulator.addInPlace(new Vector3(0, -10, -25));
+                    }
+    
+                    // Aplicamos a força acumulada ao final
+                    this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
                     break;
             }
         });
     }
 
     private initializePendulums(): void {
-        const pendulumPositions = [0, 20, 40, 60];//, 40, 50, 60, 70, 80, 100];
+        const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100, 120, 140, 160, 180];
         pendulumPositions.forEach((pos, index) => {
             this.pendulums.push(new Pendulum(this.scene, pos));
         });
