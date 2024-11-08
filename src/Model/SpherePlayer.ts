@@ -1,5 +1,5 @@
 // src/Model/SpherePlayer.ts
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeSphere, Texture, HavokPlugin } from "@babylonjs/core";
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Vector3, PhysicsBody, PhysicsMotionType, Quaternion, PhysicsShapeSphere, Texture, HavokPlugin } from "@babylonjs/core";
 
 export class SpherePlayer {
     public mesh: Mesh;
