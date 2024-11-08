@@ -21,7 +21,6 @@ export class Pendulum {
 
         this.defaultUp = new Vector3(0,1,0);
 
-
         this.box = MeshBuilder.CreateBox("distanceBoxTop", { height: 0.5, width: 0.5, depth: 16 }, this.scene);
         this.box.position.set(xPos, 4.5, 0);
         this.boxL = MeshBuilder.CreateBox("distanceBoxL", { height: 8, width: 0.5, depth: 0.5 }, this.scene);
@@ -30,7 +29,7 @@ export class Pendulum {
         this.boxR.position.set(xPos, 1, 8);
 
         this.cylinder = MeshBuilder.CreateCylinder("cylinderPendulumMass", { height: 1, diameter: 1, tessellation: 8 }, this.scene);
-        this.cylinder.position.set(xPos, -5, -10);
+        this.cylinder.position.set(xPos, -5, -8);
         const material = new StandardMaterial(`cylinderPendulumMassMaterial`, this.scene);
         material.diffuseColor = new Color3(0.9, 0.1, 0.1);
         this.cylinder.material = material;
@@ -61,7 +60,6 @@ export class Pendulum {
         const midp = this.box.position.add(this.cylinder.position).scale(0.5);
 
         this.rod.position = midp;
-
 
     }
 }

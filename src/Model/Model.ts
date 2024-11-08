@@ -71,7 +71,7 @@ export class Model implements IModel {
     }
 
     private initializePendulums(): void {
-        const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100];
+        const pendulumPositions = [0, 20, 40, 60];//, 40, 50, 60, 70, 80, 100];
         pendulumPositions.forEach((pos, index) => {
             this.pendulums.push(new Pendulum(this.scene, pos));
         });
