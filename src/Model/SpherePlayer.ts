@@ -19,7 +19,7 @@ export class SpherePlayer {
         // Configuração do corpo de física da esfera
         this.physicsBody = new PhysicsBody(this.mesh, PhysicsMotionType.DYNAMIC, false, scene);
         this.physicsBody.setMassProperties({
-            mass: 1,
+            mass: 0.3,
             centerOfMass: new Vector3(0, 0, 0),
             inertia: new Vector3(0.1, 0.1, 0.1),
             inertiaOrientation: new Quaternion(0, 0, 0, 1)
