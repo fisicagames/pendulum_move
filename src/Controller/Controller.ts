@@ -24,11 +24,28 @@ export class Controller {
         this.view.onToggleMusic(() => this.toggleMusic());
         this.view.onButtonLang(() => this.changeLanguage());
 
+        this.view.buttonUpUp(() => this.buttonUpUp());
+        this.view.buttonDownUp(() => this.buttonDownUp());
+        this.view.buttonRightUp(() => this.buttonRightUp());
+        this.view.buttonLeftUp(() => this.buttonLeftUp());
+
         scene.onBeforeRenderObservable.add(() => {
             this.updateCameraPosition();
         });
 
         // Inicializa o monitor de performance
+    }
+    buttonDownUp(): void {
+        throw new Error("Method not implemented.");
+    }
+    buttonRightUp(): void {
+        throw new Error("Method not implemented.");
+    }
+    buttonLeftUp(): void {
+        throw new Error("Method not implemented.");
+    }
+    buttonUpUp(): void {
+        throw new Error("Method not implemented.");
     }
 
     private setupCamera(): void {
@@ -66,5 +83,7 @@ export class Controller {
         this.view.changeLanguage();
     }
 
-    
+    private 
+
+
 }
