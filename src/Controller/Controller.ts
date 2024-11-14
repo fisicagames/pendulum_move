@@ -65,4 +65,6 @@ export class Controller {
     private changeLanguage(): void {
         this.view.changeLanguage();
     }
+
+    
 }

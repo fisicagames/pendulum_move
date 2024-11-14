@@ -8,8 +8,8 @@ export class View implements IView {
     private scene: Scene;
     public advancedTexture: AdvancedDynamicTexture;
     private rectangleMenu: Rectangle;
-    public buttonMenuStart: Button;
-    public buttonMenu: Button;
+    private buttonMenuStart: Button;
+    private buttonMenu: Button;
     private textblockLevel: TextBlock;
     private rectangleTouch: Rectangle;
     private rectangleTop: Rectangle;
@@ -17,10 +17,10 @@ export class View implements IView {
     private isMusicOn: boolean = true;
     private buttonLang: Button;
     private languageSwitcher: ViewLanguageSwitcher;
-    public buttonUp: Button;
-    public buttonDown: Button;
-    public buttonRight: Button;
-    public buttonLeft: Button;
+    private buttonUp: Button;
+    private buttonDown: Button;
+    private buttonRight: Button;
+    private buttonLeft: Button;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
