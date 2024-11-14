@@ -40,6 +40,9 @@ export class Model implements IModel {
             this.pendulumsManager.updatePendulums();
         });
     }
+    public applyForce(force: Vector3): void {
+        this.spherePlayer.physicsBody.applyForce(force, this.spherePlayer.mesh.absolutePosition);
+    }
 
     private keyboardInput() {
         let forceAccumulator = new Vector3(0, 0, 0);

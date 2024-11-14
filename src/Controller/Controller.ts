@@ -35,17 +35,19 @@ export class Controller {
 
         // Inicializa o monitor de performance
     }
-    buttonDownUp(): void {
-        throw new Error("Method not implemented.");
+    private buttonDownUp(): void {
+        const force = new Vector3(-15, -10, 0); 
+        this.model.applyForce(force);
     }
-    buttonRightUp(): void {
-        throw new Error("Method not implemented.");
+    private buttonRightUp(): void {
+        this.model.applyForce(new Vector3(0, -10, -25));
     }
-    buttonLeftUp(): void {
-        throw new Error("Method not implemented.");
+    private buttonLeftUp(): void {
+        this.model.applyForce(new Vector3(0, -10, 25));
     }
-    buttonUpUp(): void {
-        throw new Error("Method not implemented.");
+    private buttonUpUp(): void {
+        const force = new Vector3(25, -10, 0); 
+        this.model.applyForce(force);
     }
 
     private setupCamera(): void {
