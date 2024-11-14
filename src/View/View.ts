@@ -17,6 +17,10 @@ export class View implements IView {
     private isMusicOn: boolean = true;
     private buttonLang: Button;
     private languageSwitcher: ViewLanguageSwitcher;
+    public buttonUp: Button;
+    public buttonDown: Button;
+    public buttonRight: Button;
+    public buttonLeft: Button;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
@@ -43,6 +47,11 @@ export class View implements IView {
         this.rectangleTop.isVisible = false;
         this.textblockMenuMusic = this.advancedTexture.getControlByName("TextblockMenuMusic") as TextBlock;
         this.buttonLang = this.advancedTexture.getControlByName("ButtonLang") as Button;
+
+        this.buttonUp = this.advancedTexture.getControlByName("ButtonUp") as Button;
+        this.buttonDown = this.advancedTexture.getControlByName("ButtonDown") as Button;
+        this.buttonLeft = this.advancedTexture.getControlByName("ButtonRight") as Button;
+        this.buttonRight = this.advancedTexture.getControlByName("ButtonLeft") as Button;
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {
@@ -75,5 +84,18 @@ export class View implements IView {
     public toggleMusicIcon(): void {
         this.isMusicOn = !this.isMusicOn; 
         this.textblockMenuMusic.text = this.isMusicOn ? "🔊" : "🔈";
+    }
+
+    public buttonUpUp(callback: () => void): void {
+        this.buttonUp.onPointerUpObservable.add(callback);
+    }
+    public buttonDownUp(callback: () => void): void {
+        this.buttonDown.onPointerUpObservable.add(callback);
+    }
+    public buttonRightUp(callback: () => void): void {
+        this.buttonRight.onPointerUpObservable.add(callback);
+    }
+    public buttonLeftUp(callback: () => void): void {
+        this.buttonLeft.onPointerUpObservable.add(callback);
     }
 }
