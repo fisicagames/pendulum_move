@@ -5,7 +5,7 @@ export class SpherePlayer {
     public mesh: Mesh;
     public physicsBody: PhysicsBody;
 
-    constructor(scene: Scene, physicsPlugin: HavokPlugin) {
+    constructor(scene: Scene) {
         // Criação do mesh da esfera
         this.mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
         this.mesh.position = new Vector3(-15, -1, 0);

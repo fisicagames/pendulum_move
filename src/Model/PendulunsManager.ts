@@ -18,7 +18,7 @@ export class PendulumsManager {
 
     private initializePendulums(): void {
         const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100, 120, 140, 160, 180];
-        pendulumPositions.forEach((pos, index) => {
+        pendulumPositions.forEach((pos) => {
             this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
         });
     }

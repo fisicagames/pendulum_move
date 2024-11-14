@@ -27,7 +27,7 @@ export class Model implements IModel {
         this.pendulumsManager = new PendulumsManager(this.scene);
 
         // Criação da esfera principal do jogador usando SpherePlayer
-        this.spherePlayer = new SpherePlayer(scene, physicsPlugin);
+        this.spherePlayer = new SpherePlayer(scene);
 
         this.keyboardInput();
         this.updateModels();
