@@ -38,48 +38,18 @@ export class Model implements IModel {
         });
     }
     public applyForce(): void {
-        let forceAccumulator = new Vector3(0, 0, 0);
-
-        if (this.spherePlayer.mesh.position.z > 2) {
-            forceAccumulator.addInPlace(new Vector3(25, -10, -20));
-        } else if (this.spherePlayer.mesh.position.z < -2) {
-            forceAccumulator.addInPlace(new Vector3(25, -10, 20));
-        } else {
-            forceAccumulator.addInPlace(new Vector3(25, -10, 0));
-        }
-        this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
+       this.spherePlayer.applyForce();
     }
 
     private keyboardInput() {
         let forceAccumulator = new Vector3(0, 0, 0);
-    
+
         this.scene.onKeyboardObservable.add((kbInfo) => {
             switch (kbInfo.type) {
                 case KeyboardEventTypes.KEYDOWN:
-                    forceAccumulator.set(0, 0, 0);
-    
                     if (kbInfo.event.key === "w") {
-                        if (this.spherePlayer.mesh.position.z > 2) {
-                            forceAccumulator.addInPlace(new Vector3(25, -10, -10));
-                        } else if (this.spherePlayer.mesh.position.z < -2) {
-                            forceAccumulator.addInPlace(new Vector3(25, -10, 10));
-                        } else {
-                            forceAccumulator.addInPlace(new Vector3(25, -10, 0));
-                        }
+                        this.applyForce();
                     }
-                    if (kbInfo.event.key === "s") {
-                        if (this.spherePlayer.physicsBody.getLinearVelocity().x > 0) {
-                            forceAccumulator.addInPlace(new Vector3(-25, -10, 0));
-                        }
-                    }
-                    if (kbInfo.event.key === "a") {
-                        forceAccumulator.addInPlace(new Vector3(0, -10, 25));
-                    }
-                    if (kbInfo.event.key === "d") {
-                        forceAccumulator.addInPlace(new Vector3(0, -10, -25));
-                    }
-   
-                    this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
                     break;
             }
         });

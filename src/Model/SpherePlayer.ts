@@ -5,6 +5,11 @@ export class SpherePlayer {
     public mesh: Mesh;
     public physicsBody: PhysicsBody;
 
+    private static readonly FORCE_X = 25;
+    private static readonly FORCE_Y = -10;
+    private static readonly FORCE_Z_POSITIVE = 20;
+    private static readonly FORCE_Z_NEGATIVE = -20;
+
     constructor(scene: Scene) {
         // Criação do mesh da esfera
         this.mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
@@ -41,5 +46,18 @@ export class SpherePlayer {
         this.physicsBody.shape = spherePhysicsShape;
         this.physicsBody.setAngularDamping(0.8);
         this.physicsBody.setCollisionCallbackEnabled(true);
+    }
+
+    public applyForce(): void {
+        let forceAccumulator = new Vector3(0, 0, 0);
+        if (this.mesh.position.z > 2) {
+            forceAccumulator.addInPlace(new Vector3(SpherePlayer.FORCE_X, SpherePlayer.FORCE_Y, SpherePlayer.FORCE_Z_POSITIVE));
+        } else if (this.mesh.position.z < -2) {
+            forceAccumulator.addInPlace(new Vector3(SpherePlayer.FORCE_X, SpherePlayer.FORCE_Y, SpherePlayer.FORCE_Z_NEGATIVE));
+        } else {
+            forceAccumulator.addInPlace(new Vector3(SpherePlayer.FORCE_X, SpherePlayer.FORCE_Y, 0));
+        }
+        this.physicsBody.applyForce(forceAccumulator, this.mesh.absolutePosition);
+ 
     }
 }
