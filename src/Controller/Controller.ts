@@ -11,46 +11,57 @@ export class Controller {
     private followCamera: FollowCamera;
     private followCameraTarget: Mesh | null = null;
 
+    private isUpPressed: boolean = false;
+    private isDownPressed: boolean = false;
+    private isLeftPressed: boolean = false;
+    private isRightPressed: boolean = false;
+
     constructor(scene: Scene, model: IModel, view: IView) {
         this.scene = scene;
         this.model = model;
         this.view = view;
-        this.followCamera = this.scene.activeCamera as FollowCamera;
-
+        this.setupControls();
         this.setupCamera();
+        this.update();
+    }
+
+    private update() {
+        this.scene.onBeforeRenderObservable.add(() => {
+
+            this.updateCameraPosition();
+
+            let force = new Vector3(0, 0, 0);
+
+            if (this.isUpPressed) force.addInPlace(new Vector3(25, -10, 0));
+            if (this.isDownPressed) force.addInPlace(new Vector3(-25, -10, 0));
+            if (this.isLeftPressed) force.addInPlace(new Vector3(0, -10, -25));
+            if (this.isRightPressed) force.addInPlace(new Vector3(0, -10, 25));
+
+            if (!force.equals(Vector3.Zero())) {
+                this.model.applyForce(force);
+            }
+        });
+    }
+    private setupControls() {
 
         this.view.onButtonMenuStart(() => this.startGame());
         this.view.onButtonMenu(() => this.showMenu());
         this.view.onToggleMusic(() => this.toggleMusic());
         this.view.onButtonLang(() => this.changeLanguage());
 
-        this.view.buttonUpUp(() => this.buttonUpUp());
-        this.view.buttonDownUp(() => this.buttonDownUp());
-        this.view.buttonRightUp(() => this.buttonRightUp());
-        this.view.buttonLeftUp(() => this.buttonLeftUp());
+        this.view.buttonUpDown(() => { this.isUpPressed = true; });
+        this.view.buttonDownDown(() => { this.isDownPressed = true; });
+        this.view.buttonRightDown(() => { this.isRightPressed = true; });
+        this.view.buttonLeftDown(() => { this.isLeftPressed = true; });
 
-        scene.onBeforeRenderObservable.add(() => {
-            this.updateCameraPosition();
-        });
-
-        // Inicializa o monitor de performance
-    }
-    private buttonDownUp(): void {
-        const force = new Vector3(-15, -10, 0); 
-        this.model.applyForce(force);
-    }
-    private buttonRightUp(): void {
-        this.model.applyForce(new Vector3(0, -10, 25));
-    }
-    private buttonLeftUp(): void {
-        this.model.applyForce(new Vector3(0, -10, -25));
-    }
-    private buttonUpUp(): void {
-        const force = new Vector3(25, -10, 0); 
-        this.model.applyForce(force);
+        this.view.buttonUpUp(() => { this.isUpPressed = false; });
+        this.view.buttonDownUp(() => { this.isDownPressed = false; });
+        this.view.buttonRightUp(() => { this.isRightPressed = false; });
+        this.view.buttonLeftUp(() => { this.isLeftPressed = false; });
     }
 
     private setupCamera(): void {
+        this.followCamera = this.scene.activeCamera as FollowCamera;
         this.setCameraTarget(this.model.spherePlayer.mesh);
     }
 
@@ -58,8 +69,8 @@ export class Controller {
         if (target instanceof Mesh) {
             this.followCameraTarget = target;
         } else if (target instanceof Vector3) {
-            this.followCamera.lockedTarget = null; 
-            this.followCamera.setTarget(target);   
+            this.followCamera.lockedTarget = null;
+            this.followCamera.setTarget(target);
         }
     }
 
@@ -85,7 +96,7 @@ export class Controller {
         this.view.changeLanguage();
     }
 
-    private 
+
 
 
 }

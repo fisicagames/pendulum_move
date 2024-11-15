@@ -98,4 +98,16 @@ export class View implements IView {
     public buttonLeftUp(callback: () => void): void {
         this.buttonLeft.onPointerUpObservable.add(callback);
     }
+    public buttonUpDown(callback: () => void): void {
+        this.buttonUp.onPointerDownObservable.add(callback);
+    }
+    public buttonDownDown(callback: () => void): void {
+        this.buttonDown.onPointerDownObservable.add(callback);
+    }
+    public buttonRightDown(callback: () => void): void {
+        this.buttonRight.onPointerDownObservable.add(callback);
+    }
+    public buttonLeftDown(callback: () => void): void {
+        this.buttonLeft.onPointerDownObservable.add(callback);
+    }
 }
