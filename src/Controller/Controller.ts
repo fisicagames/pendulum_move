@@ -40,10 +40,10 @@ export class Controller {
         this.model.applyForce(force);
     }
     private buttonRightUp(): void {
-        this.model.applyForce(new Vector3(0, -10, -25));
+        this.model.applyForce(new Vector3(0, -10, 25));
     }
     private buttonLeftUp(): void {
-        this.model.applyForce(new Vector3(0, -10, 25));
+        this.model.applyForce(new Vector3(0, -10, -25));
     }
     private buttonUpUp(): void {
         const force = new Vector3(25, -10, 0); 
