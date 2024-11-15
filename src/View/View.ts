@@ -52,6 +52,10 @@ export class View implements IView {
         this.buttonDown = this.advancedTexture.getControlByName("ButtonDown") as Button;
         this.buttonLeft = this.advancedTexture.getControlByName("ButtonRight") as Button;
         this.buttonRight = this.advancedTexture.getControlByName("ButtonLeft") as Button;
+
+        this.buttonDown.isVisible = false;
+        this.buttonRight.isVisible = false;
+        this.buttonLeft.isVisible = false;
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {

@@ -33,10 +33,7 @@ export class Controller {
             let force = new Vector3(0, 0, 0);
 
             if (this.isUpPressed) force.addInPlace(new Vector3(25, -10, 0));
-            if (this.isDownPressed) force.addInPlace(new Vector3(-25, -10, 0));
-            if (this.isLeftPressed) force.addInPlace(new Vector3(0, -10, -25));
-            if (this.isRightPressed) force.addInPlace(new Vector3(0, -10, 25));
-
+            
             if (!force.equals(Vector3.Zero())) {
                 this.model.applyForce(force);
             }
@@ -50,14 +47,8 @@ export class Controller {
         this.view.onButtonLang(() => this.changeLanguage());
 
         this.view.buttonUpDown(() => { this.isUpPressed = true; });
-        this.view.buttonDownDown(() => { this.isDownPressed = true; });
-        this.view.buttonRightDown(() => { this.isRightPressed = true; });
-        this.view.buttonLeftDown(() => { this.isLeftPressed = true; });
-
         this.view.buttonUpUp(() => { this.isUpPressed = false; });
-        this.view.buttonDownUp(() => { this.isDownPressed = false; });
-        this.view.buttonRightUp(() => { this.isRightPressed = false; });
-        this.view.buttonLeftUp(() => { this.isLeftPressed = false; });
+
     }
 
     private setupCamera(): void {

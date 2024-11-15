@@ -23,10 +23,8 @@ export class Model implements IModel {
         this.allSounds.push(this.backgroundMusic);
         this.road = new Road(this.scene);
 
-        // Instancia o PendulumsManager
         this.pendulumsManager = new PendulumsManager(this.scene);
 
-        // Criação da esfera principal do jogador usando SpherePlayer
         this.spherePlayer = new SpherePlayer(scene);
 
         this.keyboardInput();
@@ -36,12 +34,20 @@ export class Model implements IModel {
     private updateModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            // Atualiza os pendulums a cada quadro
             this.pendulumsManager.updatePendulums();
         });
     }
-    public applyForce(force: Vector3): void {
-        this.spherePlayer.physicsBody.applyForce(force, this.spherePlayer.mesh.absolutePosition);
+    public applyForce(): void {
+        let forceAccumulator = new Vector3(0, 0, 0);
+
+        if (this.spherePlayer.mesh.position.z > 2) {
+            forceAccumulator.addInPlace(new Vector3(25, -10, -20));
+        } else if (this.spherePlayer.mesh.position.z < -2) {
+            forceAccumulator.addInPlace(new Vector3(25, -10, 20));
+        } else {
+            forceAccumulator.addInPlace(new Vector3(25, -10, 0));
+        }
+        this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
     }
 
     private keyboardInput() {
@@ -50,10 +56,8 @@ export class Model implements IModel {
         this.scene.onKeyboardObservable.add((kbInfo) => {
             switch (kbInfo.type) {
                 case KeyboardEventTypes.KEYDOWN:
-                    // Resetamos o acumulador a cada evento de KEYDOWN para recalcular a força
                     forceAccumulator.set(0, 0, 0);
     
-                    // Checamos quais teclas estão sendo pressionadas e somamos as forças
                     if (kbInfo.event.key === "w") {
                         if (this.spherePlayer.mesh.position.z > 2) {
                             forceAccumulator.addInPlace(new Vector3(25, -10, -10));
@@ -74,8 +78,7 @@ export class Model implements IModel {
                     if (kbInfo.event.key === "d") {
                         forceAccumulator.addInPlace(new Vector3(0, -10, -25));
                     }
-    
-                    // Aplicamos a força acumulada ao final
+   
                     this.spherePlayer.physicsBody.applyForce(forceAccumulator, this.spherePlayer.mesh.absolutePosition);
                     break;
             }
