@@ -35,9 +35,9 @@ export class Road {
             const block = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight, width: blockWidth, depth: blockDepth }, this.scene);
             block.position = new Vector3(i * blockWidth - 15, -3, 0);            
             const blockL = MeshBuilder.CreateBox(`roadBlockL${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
-            blockL.position = new Vector3(i * blockWidth - 15, -2, 9.5);
+            blockL.position = new Vector3(i * blockWidth - 15, -3.5, 9.5);
             const blockR = MeshBuilder.CreateBox(`roadBlockR${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
-            blockR.position = new Vector3(i * blockWidth - 15, -2, -9.5);
+            blockR.position = new Vector3(i * blockWidth - 15, -3.5, -9.5);
 
             // Atribui o material claro ou escuro com base na posição do bloco
             const material = i % 2 === 0 ? this.lightMaterial : this.darkMaterial;
