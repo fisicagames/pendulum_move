@@ -19,7 +19,8 @@ export class Model implements IModel {
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
         this.physicsPlugin = physicsPlugin;
-        this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/motivational-day-112790_compress.mp3", true);
+        //https://pixabay.com/pt/music/otimista-moving-on-253731/
+        this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/moving-on-253731.compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
         this.road = new Road(this.scene);
 
