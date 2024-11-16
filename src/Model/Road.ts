@@ -1,68 +1,70 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType, TransformNode } from "@babylonjs/core";
+import {
+    Scene,
+    Mesh,
+    MeshBuilder,
+    StandardMaterial,
+    Vector3,
+    PhysicsAggregate,
+    PhysicsShapeType,
+    PhysicsMotionType,
+    TransformNode,
+} from "@babylonjs/core";
 
 export class Road {
+    public blocks: Mesh[];
+    public physicsAggregates: PhysicsAggregate[];
     private scene: Scene;
-    private roadBlocks: Mesh[][] = [];
-    private roadBlocksNode: TransformNode;
-    private roadPhysicsAggregate: PhysicsAggregate;
-    private roadPhysicsAggregateL: PhysicsAggregate;
-    private roadPhysicsAggregateR: PhysicsAggregate;
-    private lightMaterial: StandardMaterial;
-    private darkMaterial: StandardMaterial;
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, positionX: number, materials: { light: StandardMaterial; dark: StandardMaterial }) {
         this.scene = scene;
-        this.roadBlocksNode = new TransformNode("RoadBlocks", this.scene);
-        this.initializeMaterials();  // Inicializa os materiais antes de criar a estrada
-        this.createRoad();
+        this.blocks = [];
+        this.physicsAggregates = [];
+        this.createRoadBlock(positionX, materials);
     }
 
-    private initializeMaterials(): void {
-        // Inicializa um material claro
-        this.lightMaterial = new StandardMaterial("lightMaterial", this.scene);
-        this.lightMaterial.diffuseColor = new Color3(0.6, 0.6, 0.8);
+    private createRoadBlock(positionX: number, materials: { light: StandardMaterial; dark: StandardMaterial }): void {
+        const blockWidth = 8;
+        const blockDepth = 17;
+        const blockHeight = 0.3;
 
-        // Inicializa um material escuro
-        this.darkMaterial = new StandardMaterial("darkMaterial", this.scene);
-        this.darkMaterial.diffuseColor = new Color3(0.4, 0.4, 0.8);
-    }
+        // Cria o bloco central
+        const block = MeshBuilder.CreateBox(
+            "roadBlock",
+            { height: blockHeight, width: blockWidth, depth: blockDepth },
+            this.scene
+        );
+        block.position = new Vector3(positionX, -3, 0);
+        block.material = positionX % 2 === 0 ? materials.light : materials.dark;
 
-    private createRoad(): void {
-        const numberOfBlocks = 50;  // Número de blocos na estrada
-        const blockWidth = 8;  // Largura de cada bloco
-        const blockDepth = 17;  // Profundidade de cada bloco
-        const blockHeight = 0.3;  // Altura de cada bloco
+        // Cria o bloco lateral esquerdo
+        const blockL = MeshBuilder.CreateBox(
+            "roadBlockL",
+            { height: blockHeight * 6, width: blockWidth, depth: 2 },
+            this.scene
+        );
+        blockL.position = new Vector3(positionX, -3.9, 9.5);
+        blockL.material = block.material;
 
-        for (let i = 0; i < numberOfBlocks; i++) {
-            const block = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight, width: blockWidth, depth: blockDepth }, this.scene);
-            block.setParent(this.roadBlocksNode);
-            block.position = new Vector3(i * blockWidth - 15, -3, 0);            
-            const blockL = MeshBuilder.CreateBox(`roadBlockL${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
-            blockL.setParent(this.roadBlocksNode);
-            blockL.position = new Vector3(i * blockWidth - 15, -3.9, 9.5);
-            const blockR = MeshBuilder.CreateBox(`roadBlockR${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
-            blockR.setParent(this.roadBlocksNode);
-            blockR.position = new Vector3(i * blockWidth - 15, -3.9, -9.5);
+        // Cria o bloco lateral direito
+        const blockR = MeshBuilder.CreateBox(
+            "roadBlockR",
+            { height: blockHeight * 6, width: blockWidth, depth: 2 },
+            this.scene
+        );
+        blockR.position = new Vector3(positionX, -3.9, -9.5);
+        blockR.material = block.material;
 
-            // Atribui o material claro ou escuro com base na posição do bloco
-            const material = i % 2 === 0 ? this.lightMaterial : this.darkMaterial;
-            block.material = material;
-            blockL.material = material;
-            blockR.material = material;
+        // Configura física
+        const physicsBlock = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        const physicsBlockL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        const physicsBlockR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
 
-            // Configurações de física para cada bloco
-            this.roadPhysicsAggregate = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-            this.roadPhysicsAggregateL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-            this.roadPhysicsAggregateR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-            this.roadPhysicsAggregate.body.setMotionType(PhysicsMotionType.ANIMATED);
-            this.roadPhysicsAggregateL.body.setMotionType(PhysicsMotionType.ANIMATED);
-            this.roadPhysicsAggregateR.body.setMotionType(PhysicsMotionType.ANIMATED);
+        physicsBlock.body.setMotionType(PhysicsMotionType.ANIMATED);
+        physicsBlockL.body.setMotionType(PhysicsMotionType.ANIMATED);
+        physicsBlockR.body.setMotionType(PhysicsMotionType.ANIMATED);
 
-            this.roadBlocks.push([block, blockL, blockR]);
-        }
-    }
-
-    public getBlocks(): Mesh[][] {
-        return this.roadBlocks;
+        // Armazena os blocos e as físicas
+        this.blocks.push(block, blockL, blockR);
+        this.physicsAggregates.push(physicsBlock, physicsBlockL, physicsBlockR);
     }
 }
