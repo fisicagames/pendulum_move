@@ -1,8 +1,9 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType } from "@babylonjs/core";
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, Vector3, PhysicsAggregate, PhysicsShapeType, PhysicsMotionType, TransformNode } from "@babylonjs/core";
 
 export class Road {
     private scene: Scene;
-    private roadBlocks: Mesh[] = [];
+    private roadBlocks: Mesh[][] = [];
+    private roadBlocksNode: TransformNode;
     private roadPhysicsAggregate: PhysicsAggregate;
     private roadPhysicsAggregateL: PhysicsAggregate;
     private roadPhysicsAggregateR: PhysicsAggregate;
@@ -11,6 +12,7 @@ export class Road {
 
     constructor(scene: Scene) {
         this.scene = scene;
+        this.roadBlocksNode = new TransformNode("RoadBlocks", this.scene);
         this.initializeMaterials();  // Inicializa os materiais antes de criar a estrada
         this.createRoad();
     }
@@ -33,10 +35,13 @@ export class Road {
 
         for (let i = 0; i < numberOfBlocks; i++) {
             const block = MeshBuilder.CreateBox(`roadBlock${i}`, { height: blockHeight, width: blockWidth, depth: blockDepth }, this.scene);
+            block.setParent(this.roadBlocksNode);
             block.position = new Vector3(i * blockWidth - 15, -3, 0);            
             const blockL = MeshBuilder.CreateBox(`roadBlockL${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
+            blockL.setParent(this.roadBlocksNode);
             blockL.position = new Vector3(i * blockWidth - 15, -3.9, 9.5);
             const blockR = MeshBuilder.CreateBox(`roadBlockR${i}`, { height: blockHeight * 6, width: blockWidth, depth: 2 }, this.scene);
+            blockR.setParent(this.roadBlocksNode);
             blockR.position = new Vector3(i * blockWidth - 15, -3.9, -9.5);
 
             // Atribui o material claro ou escuro com base na posição do bloco
@@ -53,11 +58,11 @@ export class Road {
             this.roadPhysicsAggregateL.body.setMotionType(PhysicsMotionType.ANIMATED);
             this.roadPhysicsAggregateR.body.setMotionType(PhysicsMotionType.ANIMATED);
 
-            this.roadBlocks.push(block);
+            this.roadBlocks.push([block, blockL, blockR]);
         }
     }
 
-    public getBlocks(): Mesh[] {
+    public getBlocks(): Mesh[][] {
         return this.roadBlocks;
     }
 }
