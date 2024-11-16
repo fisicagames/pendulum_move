@@ -13,7 +13,10 @@ export class Pendulum {
     private boxL: Mesh;
     private boxR: Mesh;
     private rod: Mesh;
-    defaultUp: Vector3;
+    private defaultUp: Vector3;
+    private physicsAggCylinder: PhysicsAggregate;
+    private physicsAggBox: PhysicsAggregate;
+    private physicsDistanceJoint: DistanceConstraint;
 
     constructor(scene: Scene, xPos: number, pendulumsNode: TransformNode, material: StandardMaterial) {
         this.scene = scene;
@@ -44,11 +47,11 @@ export class Pendulum {
         this.rod.parent = pendulumsNode;
 
 
-        let aggCylinder = new PhysicsAggregate(this.cylinder, PhysicsShapeType.CYLINDER, { mass: 1, restitution: 0.9 }, this.scene);
-        let aggBox = new PhysicsAggregate(this.box, PhysicsShapeType.BOX, { mass: 0, restitution: 0.9 }, this.scene);
+        this.physicsAggCylinder = new PhysicsAggregate(this.cylinder, PhysicsShapeType.CYLINDER, { mass: 1, restitution: 0.9 }, this.scene);
+        this.physicsAggBox = new PhysicsAggregate(this.box, PhysicsShapeType.BOX, { mass: 0, restitution: 0.9 }, this.scene);
 
-        let distanceJoint = new DistanceConstraint(6.5, this.scene);
-        aggCylinder.body.addConstraint(aggBox.body, distanceJoint);
+        this.physicsDistanceJoint = new DistanceConstraint(6.5, this.scene);
+        this.physicsAggCylinder.body.addConstraint(this.physicsAggBox.body, this.physicsDistanceJoint);
     }
 
     public adjustPendulumRodAngle() {
@@ -64,9 +67,36 @@ export class Pendulum {
         this.cylinder.rotationQuaternion = rot;
 
         // compute the midpoint between the ball and box
-        const midp = this.box.position.add(this.cylinder.position).scale(0.5);
+        const midPoint = this.box.position.add(this.cylinder.position).scale(0.5);
 
-        this.rod.position = midp;
+        this.rod.position = midPoint;
 
+    }
+    public dispose(): void {
+        this.box.dispose();
+        this.boxL.dispose();
+        this.boxR.dispose();
+        this.cylinder.dispose();
+        this.rod.dispose();
+
+        this.box = null;
+        this.boxL = null;
+        this.boxR = null;
+        this.cylinder = null;
+        this.rod = null;
+        if (this.physicsAggCylinder) {
+            this.physicsAggCylinder.shape.dispose();
+            this.physicsAggCylinder.dispose();
+            this.physicsAggCylinder = null;
+        }
+        if (this.physicsAggBox) {
+            this.physicsAggBox.shape.dispose();
+            this.physicsAggBox.dispose();
+            this.physicsAggBox = null;
+        }
+        if (this.physicsDistanceJoint) {
+            this.physicsDistanceJoint.dispose();
+            this.physicsDistanceJoint = null;
+        }
     }
 }
