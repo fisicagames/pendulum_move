@@ -33,6 +33,19 @@ export class PendulumsManager {
         return this.pendulums;
     }
     public createNewPendulum(pos){
-        this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));             
+        this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
+    }
+
+    public removePendulum(index: number): void {
+        if (index >= 0 && index < this.pendulums.length) {
+            const pendulum = this.pendulums[index];
+            pendulum.dispose(); // Chama o método dispose do pêndulo
+            this.pendulums.splice(index, 1); // Remove do array
+        }
+    }
+    
+    public removeAllPendulums(): void {
+        this.pendulums.forEach(pendulum => pendulum.dispose()); // Dispose de todos
+        this.pendulums = []; // Limpa o array
     }
 }
