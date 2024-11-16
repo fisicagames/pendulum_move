@@ -17,9 +17,11 @@ export class Pendulum {
     private physicsAggCylinder: PhysicsAggregate;
     private physicsAggBox: PhysicsAggregate;
     private physicsDistanceJoint: DistanceConstraint;
+    public xPosition: number;
 
     constructor(scene: Scene, xPos: number, pendulumsNode: TransformNode, material: StandardMaterial) {
         this.scene = scene;
+        this.xPosition = xPos;
         this.createPendulum(xPos, pendulumsNode, material);
     }
 

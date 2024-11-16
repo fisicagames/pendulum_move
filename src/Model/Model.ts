@@ -35,7 +35,7 @@ export class Model implements IModel {
     private updateModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            this.pendulumsManager.updatePendulums();
+            this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
         });
     }
     public applyForce(): void {

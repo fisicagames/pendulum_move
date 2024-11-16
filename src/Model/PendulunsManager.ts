@@ -17,15 +17,20 @@ export class PendulumsManager {
     }
 
     private initializePendulums(): void {
-        const pendulumPositions = [0, 20, 40, 50, 60, 70, 80, 100, 120, 140, 160, 180];
+        const pendulumPositions = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
         pendulumPositions.forEach((pos) => {
             this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
         });
     }
 
-    public updatePendulums(): void {
-        this.pendulums.forEach(pendulum => {
+    public updatePendulums(spherePlayerXPosition: number): void {
+        this.pendulums.forEach((pendulum, index) => {
             pendulum.adjustPendulumRodAngle();
+            if (pendulum.xPosition < spherePlayerXPosition - 30) {
+                this.removePendulum(index);
+                this.createNewPendulum(pendulum.xPosition + 200);
+                
+            }
         });
     }
 
