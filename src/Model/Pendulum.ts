@@ -1,8 +1,10 @@
-import { Scene, Mesh, MeshBuilder, PhysicsAggregate, PhysicsShapeType, 
-        DistanceConstraint, StandardMaterial, Color3, 
-        Quaternion,
-        Vector3,
-        TransformNode} from "@babylonjs/core";
+import {
+    Scene, Mesh, MeshBuilder, PhysicsAggregate, PhysicsShapeType,
+    DistanceConstraint, StandardMaterial, Color3,
+    Quaternion,
+    Vector3,
+    TransformNode
+} from "@babylonjs/core";
 
 export class Pendulum {
     private scene: Scene;
@@ -14,30 +16,30 @@ export class Pendulum {
     defaultUp: Vector3;
 
     constructor(scene: Scene, xPos: number, pendulumsNode: TransformNode, material: StandardMaterial) {
-        this.scene = scene;        
+        this.scene = scene;
         this.createPendulum(xPos, pendulumsNode, material);
     }
 
     private createPendulum(xPos: number, pendulumsNode, material): void {
 
-        this.defaultUp = new Vector3(0,1,0);
+        this.defaultUp = new Vector3(0, 1, 0);
 
-        this.box = MeshBuilder.CreateBox("distanceBoxTop", { height: 0.5, width: 0.5, depth: 16 }, this.scene);
+        this.box = MeshBuilder.CreateBox(`PendulumBoxTop${xPos}`, { height: 0.5, width: 0.5, depth: 16 }, this.scene);
         this.box.position.set(xPos, 4.5, 0);
         this.box.parent = pendulumsNode;
-        this.boxL = MeshBuilder.CreateBox("distanceBoxL", { height: 8, width: 0.5, depth: 0.5 }, this.scene);
+        this.boxL = MeshBuilder.CreateBox(`PendulumBoxL${xPos}`, { height: 8, width: 0.5, depth: 0.5 }, this.scene);
         this.boxL.position.set(xPos, 1, -8);
         this.boxL.parent = pendulumsNode;
-        this.boxR = MeshBuilder.CreateBox("distanceBoxR", { height: 8, width: 0.5, depth: 0.5 }, this.scene);
+        this.boxR = MeshBuilder.CreateBox(`PendulumBoxR${xPos}`, { height: 8, width: 0.5, depth: 0.5 }, this.scene);
         this.boxR.position.set(xPos, 1, 8);
         this.boxR.parent = pendulumsNode;
 
-        this.cylinder = MeshBuilder.CreateCylinder("cylinderPendulumMass", { height: 1, diameter: 1, tessellation: 8 }, this.scene);
+        this.cylinder = MeshBuilder.CreateCylinder(`cylinderPendulumMass${xPos}`, { height: 1, diameter: 1, tessellation: 8 }, this.scene);
         this.cylinder.position.set(xPos, -5, Math.random() > 0.5 ? 8 : -8);
         this.cylinder.parent = pendulumsNode;
         this.cylinder.material = material;
 
-        this.rod = MeshBuilder.CreateCylinder("pendulumRod", { height: 7, diameter: 0.1, tessellation: 8 }, this.scene);
+        this.rod = MeshBuilder.CreateCylinder(`pendulumRod${xPos}`, { height: 7, diameter: 0.1, tessellation: 8 }, this.scene);
         this.rod.position.set(xPos, 2, -1);
         this.rod.parent = pendulumsNode;
 
@@ -50,7 +52,7 @@ export class Pendulum {
     }
 
     public adjustPendulumRodAngle() {
-        
+
         const direction = this.box.position.subtract(this.cylinder.position);
         direction.normalize();
 
