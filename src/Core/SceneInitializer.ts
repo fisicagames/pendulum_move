@@ -57,7 +57,7 @@ export class SceneInitializer {
 
     private sceneOptimizer() {
         this._scene.skipPointerMovePicking = true;
-        this._scene.freezeActiveMeshes(true);
+        //this._scene.freezeActiveMeshes();
         this._scene.performancePriority = ScenePerformancePriority.BackwardCompatible;
     }
 }
