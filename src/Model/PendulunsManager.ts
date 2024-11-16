@@ -32,4 +32,7 @@ export class PendulumsManager {
     public getPendulums(): Pendulum[] {
         return this.pendulums;
     }
+    public createNewPendulum(pos){
+        this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));             
+    }
 }
