@@ -34,10 +34,12 @@ export class Model implements IModel {
     private updateSceneModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            if(this.spherePlayer.mesh.position.y > -5){
+            if(this.spherePlayer.mesh.position.y > -3 &&
+                Math.abs(this.spherePlayer.mesh.position.y) < 8){
                 this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
-            }            
+            }
+            //TODO: else end game!!            
         });
     }
     public applyForce(): void {
