@@ -28,14 +28,16 @@ export class Model implements IModel {
         this.spherePlayer = new SpherePlayer(scene);
 
         this.keyboardInput();
-        this.updateModels();
+        this.updateSceneModels();
     }
 
-    private updateModels() {
+    private updateSceneModels() {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
-            this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
-            this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
+            if(this.spherePlayer.mesh.position.y > -5){
+                this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
+                this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
+            }            
         });
     }
     public applyForce(): void {
