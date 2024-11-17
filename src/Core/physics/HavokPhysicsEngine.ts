@@ -8,7 +8,7 @@ export class HavokPhysicsEngine   {
         });
 
         const hk = new HavokPlugin(true, havok);
-        scene.enablePhysics(new Vector3(0, -24.8, 0), hk);
+        scene.enablePhysics(new Vector3(0, -24.8, 0), hk); //gravity
         
         return hk;
     }
