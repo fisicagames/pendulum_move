@@ -30,7 +30,7 @@ export class PendulumsManager {
             if (!pendulum.hasPlayerScored){
                 if(spherePlayerXPosition > pendulum.xPosition){
                     this.totalScore++;
-                    console.log(this.totalScore);
+                    //TODO: Update text of textblockLevel at view class.
                     pendulum.hasPlayerScored = true;
                 }
             }
