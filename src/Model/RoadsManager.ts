@@ -19,9 +19,15 @@ export class RoadsManager {
     private initializeMaterials(): void {
         this.lightMaterial = new StandardMaterial("lightMaterial", this.scene);
         this.lightMaterial.diffuseColor = new Color3(0.6, 0.6, 0.8);
+        this.lightMaterial.reflectionTexture = null;
+        this.lightMaterial.refractionTexture = null;
+        this.lightMaterial.needDepthPrePass = false;  
 
         this.darkMaterial = new StandardMaterial("darkMaterial", this.scene);
         this.darkMaterial.diffuseColor = new Color3(0.4, 0.4, 0.8);
+        this.darkMaterial.reflectionTexture = null;
+        this.darkMaterial.refractionTexture = null;
+        this.darkMaterial.needDepthPrePass = false;  
     }
 
     private initializeRoad(): void {

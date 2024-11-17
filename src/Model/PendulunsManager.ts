@@ -14,6 +14,9 @@ export class PendulumsManager {
         this.pendulumsNode = new TransformNode("PendulumsNode", this.scene);
         this.material = new StandardMaterial(`cylinderPendulumMassMaterial`, this.scene);
         this.material.diffuseColor = new Color3(0.9, 0.1, 0.1);
+        this.material.reflectionTexture = null;
+        this.material.refractionTexture = null;
+        this.material.needDepthPrePass = false;        
         this.initializePendulums();
     }
 

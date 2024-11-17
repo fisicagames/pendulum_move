@@ -20,6 +20,10 @@ export class SpherePlayer {
         const material = new StandardMaterial(`spherePlayerMaterial`, scene);
         material.diffuseTexture = new Texture("./assets/textures/textura-bola.jpg");
         this.mesh.material = material;
+        material.reflectionTexture = null;
+        material.refractionTexture = null;
+        material.needDepthPrePass = false;
+       
 
         // Configuração do corpo de física da esfera
         this.physicsBody = new PhysicsBody(this.mesh, PhysicsMotionType.DYNAMIC, false, scene);
