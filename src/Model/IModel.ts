@@ -1,10 +1,8 @@
-// src/Model/IModel.ts
-import { Vector3 } from "@babylonjs/core";
-import { SpherePlayer } from "./SpherePlayer";
+import { Mesh, Vector3 } from "@babylonjs/core";
 
 export interface IModel {
     toggleMusicPlayback(): void;
-    spherePlayer: SpherePlayer;
     applyForce(force: Vector3): void;
     setScoreUpdateCallback(callback: (newScore: number) => void): void;
+    onSpherePlayerMeshReady(callback: (mesh: Mesh) => void): void; 
 }

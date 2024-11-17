@@ -60,7 +60,9 @@ export class Controller {
 
     private setupCamera(): void {
         this.followCamera = this.scene.activeCamera as FollowCamera;
-        this.setCameraTarget(this.model.spherePlayer.mesh);
+        this.model.onSpherePlayerMeshReady((mesh) => {
+            this.setCameraTarget(mesh);
+        });
     }
 
     public setCameraTarget(target: Vector3 | Mesh): void {

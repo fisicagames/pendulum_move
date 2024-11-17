@@ -1,4 +1,4 @@
-import { Scene, HavokPlugin, KeyboardEventTypes, Vector3 } from "@babylonjs/core";
+import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
@@ -14,6 +14,8 @@ export class Model implements IModel {
     public spherePlayer: SpherePlayer;
     private velocityX: number;
     private pendulumsManager: PendulumsManager;
+    private spherePlayerMeshReadyCallback: ((mesh: Mesh) => void) | null = null;
+
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -75,5 +77,12 @@ export class Model implements IModel {
     }
     public setScoreUpdateCallback(callback: (newScore: number) => void): void {
         this.pendulumsManager.setOnScoreUpdatedCallback(callback);
+    }
+
+    public onSpherePlayerMeshReady(callback: (mesh: Mesh) => void): void {
+        this.spherePlayerMeshReadyCallback = callback;
+        if (this.spherePlayer) {
+            callback(this.spherePlayer.mesh);
+        }
     }
 }
