@@ -6,4 +6,5 @@ export interface IModel {
     toggleMusicPlayback(): void;
     spherePlayer: SpherePlayer;
     applyForce(force: Vector3): void;
+    setScoreUpdateCallback(callback: (newScore: number) => void): void;
 }

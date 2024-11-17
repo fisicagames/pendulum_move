@@ -73,4 +73,7 @@ export class Model implements IModel {
     public toggleMusicPlayback(): void {
         this.backgroundMusic.togglePlayback();
     }
+    public setScoreUpdateCallback(callback: (newScore: number) => void): void {
+        this.pendulumsManager.setOnScoreUpdatedCallback(callback);
+    }
 }

@@ -114,4 +114,8 @@ export class View implements IView {
     public buttonLeftDown(callback: () => void): void {
         this.buttonLeft.onPointerDownObservable.add(callback);
     }
+
+    public updateScoreText(newScore: number): void {
+        this.textblockLevel.text = `Score: ${newScore}`;
+    }
 }

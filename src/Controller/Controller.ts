@@ -22,7 +22,14 @@ export class Controller {
         this.view = view;
         this.setupControls();
         this.setupCamera();
+
+        this.model.setScoreUpdateCallback((newScore) => {
+            this.view.updateScoreText(newScore);
+        });
+        
         this.update();
+
+
     }
 
     private update() {
@@ -86,8 +93,4 @@ export class Controller {
     private changeLanguage(): void {
         this.view.changeLanguage();
     }
-
-
-
-
 }

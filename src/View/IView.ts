@@ -18,4 +18,6 @@ export interface IView {
     
     updateMainMenuVisibility(isVisible: boolean): void;
     changeLanguage(): void;
+
+    updateScoreText(newScore: number): void;
 }

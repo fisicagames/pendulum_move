@@ -30,7 +30,9 @@ export class PendulumsManager {
             if (!pendulum.hasPlayerScored){
                 if(spherePlayerXPosition > pendulum.xPosition){
                     this.totalScore++;
-                    //TODO: Update text of textblockLevel at view class.
+                    if (this.onScoreUpdatedCallback) {
+                        this.onScoreUpdatedCallback(this.totalScore);
+                    }                    
                     pendulum.hasPlayerScored = true;
                 }
             }
@@ -60,5 +62,10 @@ export class PendulumsManager {
     public removeAllPendulums(): void {
         this.pendulums.forEach(pendulum => pendulum.dispose()); // Dispose de todos
         this.pendulums = []; // Limpa o array
+    }
+
+    private onScoreUpdatedCallback?: (newScore: number) => void;
+    public setOnScoreUpdatedCallback(callback: (newScore: number) => void): void {
+        this.onScoreUpdatedCallback = callback;
     }
 }
