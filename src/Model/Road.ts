@@ -1,39 +1,43 @@
 import {
     Scene,
-    Mesh,
     MeshBuilder,
     StandardMaterial,
     Vector3,
     PhysicsAggregate,
     PhysicsShapeType,
     PhysicsMotionType,
+    TransformNode,
+    Mesh,
 } from "@babylonjs/core";
 
 export class Road {
-    public blocks: Mesh[];
-    public physicsAggregates: PhysicsAggregate[];
+    private physicsAggBlock: PhysicsAggregate;
+    private physicsAggBlockL: PhysicsAggregate;
+    private physicsAggBlocR: PhysicsAggregate;    
+    public block: Mesh;
     private scene: Scene;
+    public positionX: number;
 
-    constructor(scene: Scene, positionX: number, material: StandardMaterial) {
+    constructor(scene: Scene, positionX: number, material: StandardMaterial, roadBlocksNode: TransformNode) {
         this.scene = scene;
-        this.blocks = [];
-        this.physicsAggregates = [];
-        this.createRoadBlock(positionX, material);
+        this.positionX = positionX;
+        this.createRoadBlock(positionX, material, roadBlocksNode);
     }
 
-    private createRoadBlock(positionX: number, material): void {
+    private createRoadBlock(positionX: number, material, roadBlocksNode): void {
         const blockWidth = 8;
         const blockDepth = 17;
         const blockHeight = 0.3;
 
         // Cria o bloco central
-        const block = MeshBuilder.CreateBox(
+        this.block = MeshBuilder.CreateBox(
             "roadBlock",
             { height: blockHeight, width: blockWidth, depth: blockDepth },
             this.scene
         );
-        block.position = new Vector3(positionX, -3, 0);
-        block.material = material;
+        this.block.position = new Vector3(positionX, -3, 0);
+        this.block.material = material;
+        this.block.setParent(roadBlocksNode);
 
         const blockL = MeshBuilder.CreateBox(
             "roadBlockL",
@@ -41,7 +45,9 @@ export class Road {
             this.scene
         );
         blockL.position = new Vector3(positionX, -3.9, 9.5);
-        blockL.material = block.material;
+        blockL.material = this.block.material;
+        blockL.setParent(roadBlocksNode);
+
 
         const blockR = MeshBuilder.CreateBox(
             "roadBlockR",
@@ -49,17 +55,47 @@ export class Road {
             this.scene
         );
         blockR.position = new Vector3(positionX, -3.9, -9.5);
-        blockR.material = block.material;
+        blockR.material = this.block.material;
+        blockR.setParent(roadBlocksNode);
 
-        const physicsBlock = new PhysicsAggregate(block, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-        const physicsBlockL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-        const physicsBlockR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
 
-        physicsBlock.body.setMotionType(PhysicsMotionType.ANIMATED);
-        physicsBlockL.body.setMotionType(PhysicsMotionType.ANIMATED);
-        physicsBlockR.body.setMotionType(PhysicsMotionType.ANIMATED);
+        this.physicsAggBlock = new PhysicsAggregate(this.block, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        this.physicsAggBlockL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        this.physicsAggBlocR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
 
-        this.blocks.push(block, blockL, blockR);
-        this.physicsAggregates.push(physicsBlock, physicsBlockL, physicsBlockR);
+        this.physicsAggBlock.body.setMotionType(PhysicsMotionType.ANIMATED);
+        this.physicsAggBlockL.body.setMotionType(PhysicsMotionType.ANIMATED);
+        this.physicsAggBlocR.body.setMotionType(PhysicsMotionType.ANIMATED);
+    }
+
+    public dispose(): void {
+        if (this.block) {
+            this.block.dispose();
+            this.block = null;
+        }
+        if (this.physicsAggBlock) {
+            this.physicsAggBlock.shape.dispose();
+            this.physicsAggBlock.dispose();
+            this.physicsAggBlock = null;
+        }
+    
+        if (this.physicsAggBlockL) {
+            if (this.physicsAggBlockL.transformNode) {
+                this.physicsAggBlockL.transformNode.dispose();
+            }
+            this.physicsAggBlockL.shape.dispose();
+            this.physicsAggBlockL.dispose();
+            this.physicsAggBlockL = null;
+        }
+    
+        if (this.physicsAggBlocR) {
+            if (this.physicsAggBlocR.transformNode) {
+                this.physicsAggBlocR.transformNode.dispose();
+            }
+            this.physicsAggBlocR.shape.dispose();
+            this.physicsAggBlocR.dispose();
+            this.physicsAggBlocR = null;
+        }
+        this.scene = null;
     }
 }

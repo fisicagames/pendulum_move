@@ -75,30 +75,50 @@ export class Pendulum {
 
     }
     public dispose(): void {
-        this.box.dispose();
-        this.boxL.dispose();
-        this.boxR.dispose();
-        this.cylinder.dispose();
-        this.rod.dispose();
-
-        this.box = null;
-        this.boxL = null;
-        this.boxR = null;
-        this.cylinder = null;
-        this.rod = null;
+        if (this.box) {
+            this.box.dispose();
+            this.box = null;
+        }
+        if (this.boxL) {
+            this.boxL.dispose();
+            this.boxL = null;
+        }
+        if (this.boxR) {
+            this.boxR.dispose();
+            this.boxR = null;
+        }
+        if (this.cylinder) {
+            this.cylinder.dispose();
+            this.cylinder = null;
+        }
+        if (this.rod) {
+            this.rod.dispose();
+            this.rod = null;
+        }
+    
         if (this.physicsAggCylinder) {
+            if (this.physicsAggCylinder.transformNode) {
+                this.physicsAggCylinder.transformNode.dispose();
+            }
             this.physicsAggCylinder.shape.dispose();
             this.physicsAggCylinder.dispose();
             this.physicsAggCylinder = null;
         }
+    
         if (this.physicsAggBox) {
+            if (this.physicsAggBox.transformNode) {
+                this.physicsAggBox.transformNode.dispose();
+            }
             this.physicsAggBox.shape.dispose();
             this.physicsAggBox.dispose();
             this.physicsAggBox = null;
         }
+    
         if (this.physicsDistanceJoint) {
             this.physicsDistanceJoint.dispose();
             this.physicsDistanceJoint = null;
         }
+
+        this.scene = null;
     }
 }

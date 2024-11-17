@@ -1,9 +1,8 @@
-// src/Model/Model.ts
 import { Scene, HavokPlugin, KeyboardEventTypes, Vector3 } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
-import { SpherePlayer } from "./SpherePlayer";  // Importa o novo módulo SpherePlayer
+import { SpherePlayer } from "./SpherePlayer";
 import { PendulumsManager } from "./PendulunsManager";
 
 export class Model implements IModel {
@@ -11,10 +10,10 @@ export class Model implements IModel {
     public backgroundMusic: SoundLoader;
     private allSounds: SoundLoader[] = [];
     private physicsPlugin: HavokPlugin;
-    private road: RoadsManager;
-    public spherePlayer: SpherePlayer;  // Instância da classe SpherePlayer
+    private roadManager: RoadsManager;
+    public spherePlayer: SpherePlayer;
     private velocityX: number;
-    private pendulumsManager: PendulumsManager; // Instância do PendulumsManager
+    private pendulumsManager: PendulumsManager;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -22,7 +21,7 @@ export class Model implements IModel {
         //https://pixabay.com/pt/music/otimista-moving-on-253731/
         this.backgroundMusic = new SoundLoader(this.scene, "backgroundSound", "./assets/sounds/moving-on-253731.compress.mp3", true);
         this.allSounds.push(this.backgroundMusic);
-        this.road = new RoadsManager(this.scene);
+        this.roadManager = new RoadsManager(this.scene);
 
         this.pendulumsManager = new PendulumsManager(this.scene);
 
@@ -39,7 +38,7 @@ export class Model implements IModel {
         });
     }
     public applyForce(): void {
-       this.spherePlayer.applyForce();
+        this.spherePlayer.applyForce();
     }
 
     private keyboardInput() {
@@ -48,8 +47,14 @@ export class Model implements IModel {
         this.scene.onKeyboardObservable.add((kbInfo) => {
             switch (kbInfo.type) {
                 case KeyboardEventTypes.KEYDOWN:
-                    if (kbInfo.event.key === "w") {
+                    if (kbInfo.event.key === "w" ||
+                        kbInfo.event.key === "W" ||
+                        kbInfo.event.key === "ArrowUp" ||
+                        kbInfo.event.key === " ") {
                         this.applyForce();
+                    }
+                    if (kbInfo.event.key === "q"){
+                        this.roadManager.changeRoadPosition();
                     }
                     break;
             }

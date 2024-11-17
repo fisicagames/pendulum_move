@@ -28,18 +28,16 @@ export class RoadsManager {
         const blockWidth = 8;
 
         for (let i = 0; i < numberOfBlocks; i++) {
-
             const material = i % 2 === 0 ? this.lightMaterial : this.darkMaterial;
-
-            const road = new Road(this.scene, i * blockWidth - 15, material);
-
-            road.blocks.forEach((block) => block.setParent(this.roadBlocksNode));
-
+            const road = new Road(this.scene, i * blockWidth - 15, material, this.roadBlocksNode);
             this.roadBlocks.push(road);
         }
     }
 
     public getRoads(): Road[] {
         return this.roadBlocks;
+    }
+    public changeRoadPosition(){
+        this.roadBlocks[0].dispose();
     }
 }
