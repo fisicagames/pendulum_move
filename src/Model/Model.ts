@@ -54,7 +54,7 @@ export class Model implements IModel {
                         this.applyForce();
                     }
                     if (kbInfo.event.key === "q"){
-                        this.roadManager.changeRoadPosition();
+                        this.roadManager.disposeRoadBlock();
                     }
                     break;
             }

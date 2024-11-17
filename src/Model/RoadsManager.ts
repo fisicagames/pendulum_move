@@ -12,7 +12,7 @@ export class RoadsManager {
         this.scene = scene;
         this.roadBlocksNode = new TransformNode("RoadBlocks", this.scene);
         this.initializeMaterials();
-        this.createRoads();
+        this.initializeRoad();
     }
 
     private initializeMaterials(): void {
@@ -23,7 +23,7 @@ export class RoadsManager {
         this.darkMaterial.diffuseColor = new Color3(0.4, 0.4, 0.8);
     }
 
-    private createRoads(): void {
+    private initializeRoad(): void {
         const numberOfBlocks = 50;
         const blockWidth = 8;
 
@@ -37,7 +37,15 @@ export class RoadsManager {
     public getRoads(): Road[] {
         return this.roadBlocks;
     }
-    public changeRoadPosition(){
+    public disposeRoadBlock(){
         this.roadBlocks[0].dispose();
+
     }
+    public createNewRoadBlock(){
+        const material = 10 % 2 === 0 ? this.lightMaterial : this.darkMaterial;
+        const road = new Road(this.scene,  -20, material, this.roadBlocksNode);
+        this.roadBlocks.push(road);
+    }
+
+
 }
