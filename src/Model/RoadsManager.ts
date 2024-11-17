@@ -7,6 +7,7 @@ export class RoadsManager {
     private roadBlocksNode: TransformNode;
     private lightMaterial: StandardMaterial;
     private darkMaterial: StandardMaterial;
+    private blockWidth: number = 8;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -25,11 +26,11 @@ export class RoadsManager {
 
     private initializeRoad(): void {
         const numberOfBlocks = 50;
-        const blockWidth = 8;
+        
 
         for (let i = 0; i < numberOfBlocks; i++) {
             const material = i % 2 === 0 ? this.lightMaterial : this.darkMaterial;
-            const road = new Road(this.scene, i * blockWidth - 15, material, this.roadBlocksNode);
+            const road = new Road(this.scene, i * this.blockWidth - 15, material, this.roadBlocksNode);
             this.roadBlocks.push(road);
         }
     }
@@ -37,15 +38,26 @@ export class RoadsManager {
     public getRoads(): Road[] {
         return this.roadBlocks;
     }
-    public disposeRoadBlock(){
-        this.roadBlocks[0].dispose();
-
+    public removeRoadBlock(index){
+        if (index >= 0 && index < this.roadBlocks.length) {
+            const roadBlock = this.roadBlocks[index];
+            roadBlock.removeBlock(); // Chama o método dispose do pêndulo
+            this.roadBlocks.splice(index, 1); // Remove do array
+            this.createNewRoadBlock();
+        }
     }
-    public createNewRoadBlock(){
-        const material = 10 % 2 === 0 ? this.lightMaterial : this.darkMaterial;
-        const road = new Road(this.scene,  -20, material, this.roadBlocksNode);
+    public createNewRoadBlock(): void {
+        const lastRoadPositionX = this.roadBlocks[this.roadBlocks.length - 1]?.positionX;
+        const material = (lastRoadPositionX+15)/this.blockWidth % 2 === 0 ? this.darkMaterial:this.lightMaterial;
+        const road = new Road(this.scene, lastRoadPositionX + this.blockWidth, material, this.roadBlocksNode);
         this.roadBlocks.push(road);
     }
-
-
+    public updateRoads(spherePlayerXPosition: number) {
+        this.roadBlocks.forEach((road, index) => {
+            if (road.positionX < spherePlayerXPosition - 100) {
+                this.removeRoadBlock(index);
+               
+            }
+        });    
+    }
 }

@@ -14,7 +14,9 @@ export class Road {
     private physicsAggBlock: PhysicsAggregate;
     private physicsAggBlockL: PhysicsAggregate;
     private physicsAggBlocR: PhysicsAggregate;    
-    public block: Mesh;
+    private block: Mesh;
+    private blockR: Mesh;
+    private blockL: Mesh;
     private scene: Scene;
     public positionX: number;
 
@@ -39,39 +41,47 @@ export class Road {
         this.block.material = material;
         this.block.setParent(roadBlocksNode);
 
-        const blockL = MeshBuilder.CreateBox(
+        this.blockL = MeshBuilder.CreateBox(
             "roadBlockL",
             { height: blockHeight * 6, width: blockWidth, depth: 2 },
             this.scene
         );
-        blockL.position = new Vector3(positionX, -3.9, 9.5);
-        blockL.material = this.block.material;
-        blockL.setParent(roadBlocksNode);
+        this.blockL.position = new Vector3(positionX, -3.9, 9.5);
+        this.blockL.material = this.block.material;
+        this.blockL.setParent(roadBlocksNode);
 
 
-        const blockR = MeshBuilder.CreateBox(
+        this.blockR = MeshBuilder.CreateBox(
             "roadBlockR",
             { height: blockHeight * 6, width: blockWidth, depth: 2 },
             this.scene
         );
-        blockR.position = new Vector3(positionX, -3.9, -9.5);
-        blockR.material = this.block.material;
-        blockR.setParent(roadBlocksNode);
+        this.blockR.position = new Vector3(positionX, -3.9, -9.5);
+        this.blockR.material = this.block.material;
+        this.blockR.setParent(roadBlocksNode);
 
 
         this.physicsAggBlock = new PhysicsAggregate(this.block, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-        this.physicsAggBlockL = new PhysicsAggregate(blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
-        this.physicsAggBlocR = new PhysicsAggregate(blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        this.physicsAggBlockL = new PhysicsAggregate(this.blockL, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
+        this.physicsAggBlocR = new PhysicsAggregate(this.blockR, PhysicsShapeType.BOX, { mass: 1, friction: 1.0 }, this.scene);
 
         this.physicsAggBlock.body.setMotionType(PhysicsMotionType.ANIMATED);
         this.physicsAggBlockL.body.setMotionType(PhysicsMotionType.ANIMATED);
         this.physicsAggBlocR.body.setMotionType(PhysicsMotionType.ANIMATED);
     }
 
-    public dispose(): void {
+    public removeBlock(): void {
         if (this.block) {
             this.block.dispose();
             this.block = null;
+        }
+        if (this.blockL) {
+            this.blockL.dispose();
+            this.blockL = null;
+        }
+        if (this.blockR) {
+            this.blockR.dispose();
+            this.blockR = null;
         }
         if (this.physicsAggBlock) {
             this.physicsAggBlock.shape.dispose();

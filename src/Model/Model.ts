@@ -35,6 +35,7 @@ export class Model implements IModel {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
             this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
+            this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
         });
     }
     public applyForce(): void {
@@ -54,7 +55,11 @@ export class Model implements IModel {
                         this.applyForce();
                     }
                     if (kbInfo.event.key === "q"){
-                        this.roadManager.disposeRoadBlock();
+                        this.roadManager.removeRoadBlock(4);
+                        this.roadManager.removeRoadBlock(6);
+                        this.roadManager.removeRoadBlock(8);
+
+
                     }
                     break;
             }
