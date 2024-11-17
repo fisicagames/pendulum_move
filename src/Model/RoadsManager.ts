@@ -11,7 +11,7 @@ export class RoadsManager {
     constructor(scene: Scene) {
         this.scene = scene;
         this.roadBlocksNode = new TransformNode("RoadBlocks", this.scene);
-        this.initializeMaterials(); // Inicializa os materiais antes de criar as estradas
+        this.initializeMaterials();
         this.createRoads();
     }
 
@@ -28,15 +28,13 @@ export class RoadsManager {
         const blockWidth = 8;
 
         for (let i = 0; i < numberOfBlocks; i++) {
-            const road = new Road(this.scene, i * blockWidth - 15, {
-                light: this.lightMaterial,
-                dark: this.darkMaterial,
-            });
 
-            // Configura o nó pai para os blocos da estrada
+            const material = i % 2 === 0 ? this.lightMaterial : this.darkMaterial;
+
+            const road = new Road(this.scene, i * blockWidth - 15, material);
+
             road.blocks.forEach((block) => block.setParent(this.roadBlocksNode));
 
-            // Adiciona à lista de estradas
             this.roadBlocks.push(road);
         }
     }
