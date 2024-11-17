@@ -7,6 +7,7 @@ export class PendulumsManager {
     private pendulums: Pendulum[] = [];
     private pendulumsNode: TransformNode;
     private material: StandardMaterial;
+    public totalScore: number = 0;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -26,6 +27,13 @@ export class PendulumsManager {
     public updatePendulums(spherePlayerXPosition: number): void {
         this.pendulums.forEach((pendulum, index) => {
             pendulum.adjustPendulumRodAngle();
+            if (!pendulum.hasPlayerScored){
+                if(spherePlayerXPosition > pendulum.xPosition){
+                    this.totalScore++;
+                    console.log(this.totalScore);
+                    pendulum.hasPlayerScored = true;
+                }
+            }
             if (pendulum.xPosition < spherePlayerXPosition - 30) {
                 this.removePendulum(index);
                 this.createNewPendulum(pendulum.xPosition + 200);

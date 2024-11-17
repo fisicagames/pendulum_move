@@ -18,6 +18,7 @@ export class Pendulum {
     private physicsAggBox: PhysicsAggregate;
     private physicsDistanceJoint: DistanceConstraint;
     public xPosition: number;
+    public hasPlayerScored: boolean = false;
 
     constructor(scene: Scene, xPos: number, pendulumsNode: TransformNode, material: StandardMaterial) {
         this.scene = scene;
