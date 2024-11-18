@@ -4,6 +4,7 @@ import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
 import { SpherePlayer } from "./SpherePlayer";
 import { PendulumsManager } from "./PendulunsManager";
+import { ThinSprite } from "@babylonjs/core/Sprites/thinSprite";
 
 export class Model implements IModel {
     private scene: Scene;
@@ -84,5 +85,10 @@ export class Model implements IModel {
         if (this.spherePlayer) {
             callback(this.spherePlayer.mesh);
         }
+    }
+
+    public restartModels(){
+        this.pendulumsManager.removeAllPendulums();
+        this.pendulumsManager.initializePendulums();
     }
 }
