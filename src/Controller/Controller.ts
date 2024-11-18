@@ -81,7 +81,10 @@ export class Controller {
     }
 
     private startGame(): void {
+        this.model.restartModels();
         this.view.updateMainMenuVisibility(false);
+        //TODO: Make reset scene
+        
     }
 
     private showMenu(): void {
