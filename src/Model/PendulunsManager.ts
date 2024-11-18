@@ -20,7 +20,8 @@ export class PendulumsManager {
         this.initializePendulums();
     }
 
-    private initializePendulums(): void {
+    public initializePendulums(): void {
+        this.totalScore = 0;
         const pendulumPositions = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
         pendulumPositions.forEach((pos) => {
             this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
@@ -32,6 +33,7 @@ export class PendulumsManager {
             pendulum.adjustPendulumRodAngle();
             if (!pendulum.hasPlayerScored){
                 if(spherePlayerXPosition > pendulum.xPosition){
+                    //TODO: Check hight of spherePlayer and box Pendulum.
                     this.totalScore++;
                     if (this.onScoreUpdatedCallback) {
                         this.onScoreUpdatedCallback(this.totalScore);

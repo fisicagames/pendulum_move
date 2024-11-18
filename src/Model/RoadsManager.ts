@@ -30,7 +30,7 @@ export class RoadsManager {
         this.darkMaterial.needDepthPrePass = false;  
     }
 
-    private initializeRoad(): void {
+    public initializeRoad(): void {
         const numberOfBlocks = 50;
         
 
@@ -65,5 +65,12 @@ export class RoadsManager {
                
             }
         });    
+    }
+    public removeAllRoadBlocks(): void {
+        this.roadBlocks.forEach((roadBlock) => {
+            roadBlock.removeBlock();
+        });
+    
+        this.roadBlocks = [];
     }
 }

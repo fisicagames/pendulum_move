@@ -2,9 +2,9 @@ import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh } from "@babylonj
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
-import { SpherePlayer } from "./SpherePlayer";
 import { PendulumsManager } from "./PendulunsManager";
-import { ThinSprite } from "@babylonjs/core/Sprites/thinSprite";
+import { SpherePlayerManager } from "./SpherePlayerManager";
+import { SpherePlayer } from "./SpherePlayer";
 
 export class Model implements IModel {
     private scene: Scene;
@@ -12,6 +12,7 @@ export class Model implements IModel {
     private allSounds: SoundLoader[] = [];
     private physicsPlugin: HavokPlugin;
     private roadManager: RoadsManager;
+    public spherePlayerManager: SpherePlayerManager;
     public spherePlayer: SpherePlayer;
     private velocityX: number;
     private pendulumsManager: PendulumsManager;
@@ -28,7 +29,9 @@ export class Model implements IModel {
 
         this.pendulumsManager = new PendulumsManager(this.scene);
 
-        this.spherePlayer = new SpherePlayer(scene);
+        this.spherePlayerManager = new SpherePlayerManager(this.scene);
+        this.spherePlayerManager.createSpherePlayer();
+        this.spherePlayer = this.spherePlayerManager.spherePlayer;
 
         this.keyboardInput();
         this.updateSceneModels();
@@ -88,7 +91,14 @@ export class Model implements IModel {
     }
 
     public restartModels(){
+        this.roadManager.removeAllRoadBlocks();
+        this.roadManager.initializeRoad();
         this.pendulumsManager.removeAllPendulums();
         this.pendulumsManager.initializePendulums();
+        this.spherePlayerManager.spherePlayer.remove();
+        this.spherePlayer = this.spherePlayerManager.createSpherePlayer();
+        if (this.spherePlayerMeshReadyCallback) {
+            this.spherePlayerMeshReadyCallback(this.spherePlayer.mesh);
+        }
     }
 }
