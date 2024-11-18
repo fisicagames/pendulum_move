@@ -31,8 +31,8 @@ export class SceneInitializer {
         this._scene = new Scene(this._engine);
         const advancedTexture = await GUILoader.loadGUI(this._scene, "./assets/gui/guiTexture.json");
         this.sceneOptimizer();
-        this._scene.clearColor = Color4.FromHexString("#000000");
-        const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1.0, -0.5), this._scene);
+        this._scene.clearColor = Color4.FromHexString("#87CEEB");
+        const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(-0.2, 0.11, 0), this._scene);
         light1.intensity = 1.1;
 
         const universalCamera = CameraInitializer.createUniversalCamera(this._scene, this._canvas);

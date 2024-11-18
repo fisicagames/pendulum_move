@@ -2,7 +2,12 @@
 
 Start: [https://gui.babylonjs.com/#6RS26L]()
 
-Current: https://gui.babylonjs.com/#6RS26L#6
+Current: https://gui.babylonjs.com/#6RS26L#10
+
+Colors:
+
+https://colorhunt.co/palette/f8ededff8225b43f3f173b45
+
 
 # Soundtrack
 
