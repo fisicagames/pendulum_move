@@ -5,4 +5,5 @@ export interface IModel {
     applyForce(force: Vector3): void;
     setScoreUpdateCallback(callback: (newScore: number) => void): void;
     onSpherePlayerMeshReady(callback: (mesh: Mesh) => void): void; 
+    restartModels(): void;
 }
