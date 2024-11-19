@@ -18,42 +18,44 @@ export class Pendulum {
     private physicsAggBox: PhysicsAggregate;
     private physicsDistanceJoint: DistanceConstraint;
     public xPosition: number;
+    public yPosition: number;
     public hasPlayerScored: boolean = false;
 
-    constructor(scene: Scene, xPos: number, pendulumsNode: TransformNode, material: StandardMaterial) {
+    constructor(scene: Scene, xPosition: number, yPosition: number, pendulumsNode: TransformNode, material: StandardMaterial) {
         this.scene = scene;
-        this.xPosition = xPos;
-        this.createPendulum(xPos, pendulumsNode, material);
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.createPendulum(xPosition, yPosition,pendulumsNode, material);
     }
 
-    private createPendulum(xPos: number, pendulumsNode, material): void {
+    private createPendulum(xPosition: number, yPosition: number, pendulumsNode, material): void {
 
         this.defaultUp = new Vector3(0, 1, 0);
 
-        this.box = MeshBuilder.CreateBox(`PendulumBoxTop${xPos}`, { height: 0.5, width: 0.5, depth: 16 }, this.scene);
-        this.box.position.set(xPos, 4.5, 0);
+        this.box = MeshBuilder.CreateBox(`PendulumBoxTop${xPosition}`, { height: 0.5, width: 0.5, depth: 16 }, this.scene);
+        this.box.position.set(xPosition, yPosition, 0);
         this.box.parent = pendulumsNode;
-        this.boxL = MeshBuilder.CreateBox(`PendulumBoxL${xPos}`, { height: 8, width: 0.5, depth: 0.5 }, this.scene);
-        this.boxL.position.set(xPos, 1, -8);
+        this.boxL = MeshBuilder.CreateBox(`PendulumBoxL${xPosition}`, { height: yPosition+3.0+0.25+0.15, width: 0.5, depth: 0.5 }, this.scene);
+        this.boxL.position.set(xPosition, (yPosition+3.0+0.5+0.3)/2-3.35, -8);
         this.boxL.parent = pendulumsNode;
-        this.boxR = MeshBuilder.CreateBox(`PendulumBoxR${xPos}`, { height: 8, width: 0.5, depth: 0.5 }, this.scene);
-        this.boxR.position.set(xPos, 1, 8);
+        this.boxR = MeshBuilder.CreateBox(`PendulumBoxR${xPosition}`, { height: yPosition+3.0+0.25+0.15, width: 0.5, depth: 0.5 }, this.scene);
+        this.boxR.position.set(xPosition, (yPosition+3.0+0.5+0.3)/2-3.35, 8);
         this.boxR.parent = pendulumsNode;
 
-        this.cylinder = MeshBuilder.CreateCylinder(`cylinderPendulumMass${xPos}`, { height: 1, diameter: 1, tessellation: 8 }, this.scene);
-        this.cylinder.position.set(xPos, -5, Math.random() > 0.5 ? 8 : -8);
+        this.cylinder = MeshBuilder.CreateCylinder(`cylinderPendulumMass${xPosition}`, { height: 1, diameter: 1, tessellation: 8 }, this.scene);
+        this.cylinder.position.set(xPosition, -5, Math.random() > 0.5 ? 8 : -8);
         this.cylinder.parent = pendulumsNode;
         this.cylinder.material = material;
 
-        this.rod = MeshBuilder.CreateCylinder(`pendulumRod${xPos}`, { height: 7, diameter: 0.1, tessellation: 8 }, this.scene);
-        this.rod.position.set(xPos, 2, -1);
+        this.rod = MeshBuilder.CreateCylinder(`pendulumRod${xPosition}`, { height: yPosition+2.5, diameter: 0.1, tessellation: 8 }, this.scene);
+        this.rod.position.set(xPosition, 2, -1);
         this.rod.parent = pendulumsNode;
 
 
         this.physicsAggCylinder = new PhysicsAggregate(this.cylinder, PhysicsShapeType.CYLINDER, { mass: 1, restitution: 0.9 }, this.scene);
         this.physicsAggBox = new PhysicsAggregate(this.box, PhysicsShapeType.BOX, { mass: 0, restitution: 0.9 }, this.scene);
 
-        this.physicsDistanceJoint = new DistanceConstraint(6.5, this.scene);
+        this.physicsDistanceJoint = new DistanceConstraint(yPosition+2, this.scene);
         this.physicsAggCylinder.body.addConstraint(this.physicsAggBox.body, this.physicsDistanceJoint);
     }
 

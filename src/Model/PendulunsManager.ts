@@ -8,6 +8,7 @@ export class PendulumsManager {
     private pendulumsNode: TransformNode;
     private material: StandardMaterial;
     public totalScore: number = 0;
+    private xDecrement: number = 20;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -23,8 +24,9 @@ export class PendulumsManager {
     public initializePendulums(): void {
         this.totalScore = 0;
         const pendulumPositions = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
-        pendulumPositions.forEach((pos) => {
-            this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
+        const yPosition = 20;
+        pendulumPositions.forEach((xPosition) => {
+            this.pendulums.push(new Pendulum(this.scene, xPosition, yPosition, this.pendulumsNode, this.material));
         });
     }
 
@@ -43,7 +45,11 @@ export class PendulumsManager {
             }
             if (pendulum.xPosition < spherePlayerXPosition - 30) {
                 this.removePendulum(index);
-                this.createNewPendulum(pendulum.xPosition + 200);
+                const newYposition =  Math.round(pendulum.xPosition/300) % 2 === 0  ? 4.0: 20;
+                this.xDecrement = this.xDecrement > 1 ? this.xDecrement - 0.1: 1;
+                console.log(this.xDecrement);
+                const newXposition = this.pendulums[this.pendulums.length-1].xPosition;
+                this.createNewPendulum(newXposition + this.xDecrement, newYposition);
                 
             }
         });
@@ -52,8 +58,8 @@ export class PendulumsManager {
     public getPendulums(): Pendulum[] {
         return this.pendulums;
     }
-    public createNewPendulum(pos){
-        this.pendulums.push(new Pendulum(this.scene, pos, this.pendulumsNode, this.material));
+    public createNewPendulum(xPosition, yPosition){
+        this.pendulums.push(new Pendulum(this.scene, xPosition, yPosition, this.pendulumsNode, this.material));
     }
 
     public removePendulum(index: number): void {
