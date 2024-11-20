@@ -17,7 +17,7 @@ export class Model implements IModel {
     private velocityX: number;
     private pendulumsManager: PendulumsManager;
     private spherePlayerMeshReadyCallback: ((mesh: Mesh) => void) | null = null;
-
+    private endGameCallback: ((isVisible: boolean) => void) | null = null;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -45,6 +45,12 @@ export class Model implements IModel {
                 this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
             }
+            else if (this.spherePlayer.mesh.position.y > -10 ||
+                Math.abs(this.spherePlayer.mesh.position.y) < 20){
+                    if (this.endGameCallback) {
+                        this.endGameCallback(true);
+                    }                
+                }
             //TODO: else end game!!            
         });
     }
@@ -101,4 +107,8 @@ export class Model implements IModel {
             this.spherePlayerMeshReadyCallback(this.spherePlayer.mesh);
         }
     }
+
+    public setEndGameCallback(callback: (isVisible: boolean) => void): void {
+        this.endGameCallback = callback;
+    }    
 }

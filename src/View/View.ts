@@ -3,7 +3,7 @@ import { Scene, Vector3, Mesh } from "@babylonjs/core";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
 import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
-
+//TODO: Display pendulum variables in the GUI for the physics simulation.
 export class View implements IView {
     private scene: Scene;
     public advancedTexture: AdvancedDynamicTexture;
@@ -21,6 +21,8 @@ export class View implements IView {
     private buttonDown: Button;
     private buttonRight: Button;
     private buttonLeft: Button;
+
+    private rectangleGame: Rectangle;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
@@ -56,14 +58,18 @@ export class View implements IView {
         this.buttonDown.isVisible = false;
         this.buttonRight.isVisible = false;
         this.buttonLeft.isVisible = false;
+
+        this.rectangleGame = this.advancedTexture.getControlByName("RectangleGame") as Rectangle;
+        this.rectangleGame.isVisible = false;
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {
-        this.rectangleMenu.isVisible = isVisible;
+        this.rectangleMenu.isVisible = isVisible;        
         this.buttonMenu.isVisible = !isVisible;
         this.textblockLevel.isVisible = !isVisible;
         this.rectangleTouch.isVisible = !isVisible;
         this.rectangleTop.isVisible = !isVisible;
+        this.rectangleGame.isVisible = !isVisible;
     }
 
     public onButtonMenuStart(callback: () => void): void {
@@ -71,7 +77,7 @@ export class View implements IView {
     }
 
     public onButtonMenu(callback: () => void): void {
-        this.buttonMenu.onPointerUpObservable.add(callback);
+        this.buttonMenu.onPointerUpObservable.add(callback);        
     }
 
     public onToggleMusic(callback: () => void): void {
@@ -117,5 +123,10 @@ export class View implements IView {
 
     public updateScoreText(newScore: number): void {
         this.textblockLevel.text = `Score: ${newScore}`;
+    }
+
+    public showEndGamePanel(isVisible: boolean): void {
+        this.rectangleGame.isVisible = isVisible;
+
     }
 }

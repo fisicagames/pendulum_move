@@ -26,9 +26,10 @@ export class Controller {
         this.model.setScoreUpdateCallback((newScore) => {
             this.view.updateScoreText(newScore);
         });
-        
-        this.update();
 
+        this.model.setEndGameCallback((isVisible: boolean) => this.showEndGamePanel(isVisible));
+
+        this.update();
 
     }
 
@@ -83,6 +84,8 @@ export class Controller {
     private startGame(): void {
         this.model.restartModels();
         this.view.updateMainMenuVisibility(false);        
+        this.view.showEndGamePanel(false);
+
     }
 
     private showMenu(): void {
@@ -95,5 +98,9 @@ export class Controller {
 
     private changeLanguage(): void {
         this.view.changeLanguage();
+    }
+
+    private showEndGamePanel(isVisible: boolean): void {
+        this.view.showEndGamePanel(isVisible);
     }
 }

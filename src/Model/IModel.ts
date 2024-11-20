@@ -6,4 +6,5 @@ export interface IModel {
     setScoreUpdateCallback(callback: (newScore: number) => void): void;
     onSpherePlayerMeshReady(callback: (mesh: Mesh) => void): void; 
     restartModels(): void;
+    setEndGameCallback(callback: (isVisible: boolean) => void): void;
 }

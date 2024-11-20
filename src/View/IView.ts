@@ -20,4 +20,6 @@ export interface IView {
     changeLanguage(): void;
 
     updateScoreText(newScore: number): void;
+
+    showEndGamePanel(isVisible: boolean): void;
 }
