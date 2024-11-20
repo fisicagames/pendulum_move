@@ -43,7 +43,7 @@ export class PendulumsManager {
                     pendulum.hasPlayerScored = true;
                 }
             }
-            if (pendulum.xPosition < spherePlayerXPosition - 30) {
+            if (pendulum.xPosition < spherePlayerXPosition - this.xDecrement) {
                 this.removePendulum(index);
                 const newYposition =  Math.round(pendulum.xPosition/300) % 2 === 0  ? 4.0: 20;
                 this.xDecrement = this.xDecrement > 2 ? this.xDecrement - 0.1: 2;                
