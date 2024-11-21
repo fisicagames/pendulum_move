@@ -23,6 +23,7 @@ export class PendulumsManager {
 
     public initializePendulums(): void {
         this.totalScore = 0;
+        this.xDecrement = 20;
         const pendulumPositions = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
         const yPosition = 20;
         pendulumPositions.forEach((xPosition) => {
@@ -43,11 +44,12 @@ export class PendulumsManager {
                     pendulum.hasPlayerScored = true;
                 }
             }
-            if (pendulum.xPosition < spherePlayerXPosition - this.xDecrement) {
+            if (pendulum.xPosition < spherePlayerXPosition - this.xDecrement - 7) {
                 this.removePendulum(index);
                 const newYposition =  Math.round(pendulum.xPosition/300) % 2 === 0  ? 4.0: 20;
                 this.xDecrement = this.xDecrement > 2 ? this.xDecrement - 0.1: 2;                
-                console.log(this.xDecrement);
+                //TODO: Remember to remove this console.log:
+                //console.log(this.xDecrement);
                 const newXposition = this.pendulums[this.pendulums.length-1].xPosition;
                 this.createNewPendulum(newXposition + this.xDecrement, newYposition);
                 
