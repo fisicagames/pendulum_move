@@ -42,7 +42,7 @@ export class Model implements IModel {
         this.velocityX = 5;
         this.scene.onBeforeRenderObservable.add(() => {
             if(this.spherePlayer.mesh.position.y > -3 &&
-                Math.abs(this.spherePlayer.mesh.position.y) < 8){
+                Math.abs(this.spherePlayer.mesh.position.z) < 8){
                 this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x,this.spherePlayer.mesh.position.y, this.endGAme);
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
             }
