@@ -46,6 +46,7 @@ export class Model implements IModel {
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
             }
             else if (this.spherePlayer.mesh.position.y < -10 ||
+                this.spherePlayer.mesh.position.y > 20 ||
                 Math.abs(this.spherePlayer.mesh.position.x) < 20){
                     if (this.endGameCallback) {
                         this.endGameCallback(true);
