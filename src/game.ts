@@ -14,6 +14,7 @@ export class Game {
     }
     public startMainScene() {
         const mainScene = new SceneInitializer(this.canvas, this.engine);
+        //TODO: Remove InspectorDebugModel before build!
         InspectorDebugModel.enable(mainScene.scene); //Shift+d
     }
 }
