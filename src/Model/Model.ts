@@ -18,6 +18,7 @@ export class Model implements IModel {
     private pendulumsManager: PendulumsManager;
     private spherePlayerMeshReadyCallback: ((mesh: Mesh) => void) | null = null;
     private endGameCallback: ((isVisible: boolean) => void) | null = null;
+    public endGAme: boolean = false;
 
     constructor(scene: Scene, physicsPlugin: HavokPlugin) {
         this.scene = scene;
@@ -42,7 +43,7 @@ export class Model implements IModel {
         this.scene.onBeforeRenderObservable.add(() => {
             if(this.spherePlayer.mesh.position.y > -3 &&
                 Math.abs(this.spherePlayer.mesh.position.y) < 8){
-                this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
+                this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x,this.spherePlayer.mesh.position.y, this.endGAme);
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
             }
             else if (this.spherePlayer.mesh.position.y < -10 ||
@@ -50,6 +51,7 @@ export class Model implements IModel {
                 Math.abs(this.spherePlayer.mesh.position.x) < 20){
                     if (this.endGameCallback) {
                         this.endGameCallback(true);
+                        this.endGAme = true;
                     }                
                 }
             //TODO: else end game!!            
@@ -99,6 +101,7 @@ export class Model implements IModel {
 
     public restartModels(){
         //TODO: Implement high score.
+        this.endGAme = false;
         this.roadManager.removeAllRoadBlocks();
         this.roadManager.initializeRoad();
         this.pendulumsManager.removeAllPendulums();

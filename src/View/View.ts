@@ -9,6 +9,7 @@ export class View implements IView {
     public advancedTexture: AdvancedDynamicTexture;
     private rectangleMenu: Rectangle;
     private buttonMenuStart: Button;
+    private buttonMenuContinuar: Button;
     private buttonMenu: Button;
     private textblockLevel: TextBlock;
     private rectangleTouch: Rectangle;
@@ -23,6 +24,12 @@ export class View implements IView {
     private buttonLeft: Button;
 
     private rectangleGame: Rectangle;
+    private textblockMenuBest: TextBlock;
+    private textblockTotalScore: TextBlock;
+
+    private topScore: number = 0;
+
+    private textblockScoreGame: TextBlock;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
@@ -39,6 +46,7 @@ export class View implements IView {
         this.buttonMenuStart = this.advancedTexture.getControlByName("ButtonMenuStart") as Button;
         this.buttonMenu = this.advancedTexture.getControlByName("ButtonMenu") as Button;
         this.buttonMenu.isVisible = false;
+        this.buttonMenuContinuar = this.advancedTexture.getControlByName("ButtonMenuContinuar") as Button;        
         this.rectangleMenu = this.advancedTexture.getControlByName("RectangleMenu") as Rectangle;
         this.rectangleMenu.isVisible = true;
         this.textblockLevel = this.advancedTexture.getControlByName("TextblockLevel") as TextBlock;
@@ -61,6 +69,11 @@ export class View implements IView {
 
         this.rectangleGame = this.advancedTexture.getControlByName("RectangleGame") as Rectangle;
         this.rectangleGame.isVisible = false;
+
+        this.textblockMenuBest = this.advancedTexture.getControlByName("TextblockMenuBest") as TextBlock;
+        this.textblockTotalScore = this.advancedTexture.getControlByName("TextblockTotalScore") as TextBlock;
+        this.textblockScoreGame = this.advancedTexture.getControlByName("TextblockScoreGame") as TextBlock;
+        
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {
@@ -75,7 +88,9 @@ export class View implements IView {
     public onButtonMenuStart(callback: () => void): void {
         this.buttonMenuStart.onPointerUpObservable.add(callback);
     }
-
+    public onButtonMenuContinuar(callback: () => void): void {
+        this.buttonMenuContinuar.onPointerUpObservable.add(callback);
+    }
     public onButtonMenu(callback: () => void): void {
         this.buttonMenu.onPointerUpObservable.add(callback);        
     }
@@ -122,11 +137,52 @@ export class View implements IView {
     }
 
     public updateScoreText(newScore: number): void {
-        this.textblockLevel.text = `Score: ${newScore}`;
+        this.textblockLevel.text = `Goals: ` + this.getScoreDisplay(newScore);
+        //TODO: Remove next two lines for run only when endGame event.
+        this.textblockTotalScore.text = `Goals: ` + this.getScoreDisplay(newScore) + ` 🏆`;
+        this.textblockScoreGame.text = this.getRandomBolaFora();
+        if(this.topScore < newScore) {
+            this.topScore = newScore;
+            this.textblockMenuBest.text = this.getScoreDisplay(newScore) + ` 🏆`;
+        }
+    }
+
+    private getScoreDisplay(score: number): string {
+        if (score < 10) {
+            return `${score}`;
+        } else if (score < 30) {
+            return `${score} 🥉`; 
+        } else if (score < 60) {
+            return `${score} 🥈`; 
+        } else {
+            return `${score} 🥇`; 
+        }
     }
 
     public showEndGamePanel(isVisible: boolean): void {
         this.rectangleGame.isVisible = isVisible;
+    }
 
+    private getRandomBolaFora(): string {
+        const phrases = [
+            "⚽ Bola Fora! 🚫",
+            "⚽❌ Fora!",
+            "🥅 ➡️ Bola Fora!",
+            "⚽⬅️ Fora do Jogo!",
+            "🚩⚽ Bola Fora!",
+            "⚽🙀 Oops! Bola Fora!",
+            "⚽💨❌ Fora!",
+            "🛑⚽ Fora de campo!",
+            "😬⚽ Saiu!",
+            "⚽🤦‍♂️ Bola Fora!",
+            "🏃‍♂️⚽💥 Bola bem fora!",
+            "💢⚽ Fora da Área!",
+            "🎯❌ Errou! Bola Fora!",
+            "⚽✨ Fora de Controle!",
+            "🚫⚽🌀 Desastre! Bola Fora!"
+        ];
+    
+        // Retorna uma string aleatória da lista
+        return phrases[Math.floor(Math.random() * phrases.length)];
     }
 }

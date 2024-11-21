@@ -50,6 +50,7 @@ export class Controller {
     private setupControls() {
 
         this.view.onButtonMenuStart(() => this.startGame());
+        this.view.onButtonMenuContinuar(() => this.startGame());
         this.view.onButtonMenu(() => this.showMenu());
         this.view.onToggleMusic(() => this.toggleMusic());
         this.view.onButtonLang(() => this.changeLanguage());
@@ -85,6 +86,7 @@ export class Controller {
         this.model.restartModels();
         this.view.updateMainMenuVisibility(false);        
         this.view.showEndGamePanel(false);
+        this.view.updateScoreText(0);
 
     }
 

@@ -9,6 +9,7 @@ export class PendulumsManager {
     private material: StandardMaterial;
     public totalScore: number = 0;
     private xDecrement: number = 20;
+    private onScoreUpdatedCallback?: (newScore: number) => void;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -31,12 +32,12 @@ export class PendulumsManager {
         });
     }
 
-    public updatePendulums(spherePlayerXPosition: number): void {
+    public updatePendulums(spherePlayerXPosition: number, spherePlayerYPosition: number, endGAme: boolean): void {
         this.pendulums.forEach((pendulum, index) => {
             pendulum.adjustPendulumRodAngle();
             if (!pendulum.hasPlayerScored){
-                if(spherePlayerXPosition > pendulum.xPosition){
-                    //TODO: Check hight of spherePlayer and box Pendulum.
+                if(!endGAme && spherePlayerXPosition > pendulum.xPosition &&
+                    spherePlayerYPosition < pendulum.yPosition){
                     this.totalScore++;
                     if (this.onScoreUpdatedCallback) {
                         this.onScoreUpdatedCallback(this.totalScore);
@@ -77,7 +78,6 @@ export class PendulumsManager {
         this.pendulums = []; // Limpa o array
     }
 
-    private onScoreUpdatedCallback?: (newScore: number) => void;
     public setOnScoreUpdatedCallback(callback: (newScore: number) => void): void {
         this.onScoreUpdatedCallback = callback;
     }
