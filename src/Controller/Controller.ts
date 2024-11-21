@@ -90,6 +90,7 @@ export class Controller {
 
     private showMenu(): void {
         this.view.updateMainMenuVisibility(true);
+        this.model.restartModels();
     }
 
     private toggleMusic(): void {
