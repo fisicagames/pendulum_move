@@ -45,8 +45,8 @@ export class Model implements IModel {
                 this.pendulumsManager.updatePendulums(this.spherePlayer.mesh.position.x);
                 this.roadManager.updateRoads(this.spherePlayer.mesh.position.x);
             }
-            else if (this.spherePlayer.mesh.position.y > -10 ||
-                Math.abs(this.spherePlayer.mesh.position.y) < 20){
+            else if (this.spherePlayer.mesh.position.y < -10 ||
+                Math.abs(this.spherePlayer.mesh.position.x) < 20){
                     if (this.endGameCallback) {
                         this.endGameCallback(true);
                     }                
@@ -97,6 +97,7 @@ export class Model implements IModel {
     }
 
     public restartModels(){
+        //TODO: Implement high score.
         this.roadManager.removeAllRoadBlocks();
         this.roadManager.initializeRoad();
         this.pendulumsManager.removeAllPendulums();
