@@ -12,7 +12,7 @@ export class SpherePlayer {
 
     constructor(scene: Scene, material: StandardMaterial) {
         // Criação do mesh da esfera
-        this.mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1, segments: 16 }, scene);
+        this.mesh = MeshBuilder.CreateSphere("sphere", { diameter: 0.8, segments: 16 }, scene);
         this.mesh.position = new Vector3(-15, -1, 0);
         this.mesh.rotate(new Vector3(1, 0, 0), 10);
 
