@@ -1,10 +1,11 @@
-import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh } from "@babylonjs/core";
+import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh, Color4 } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
 import { PendulumsManager } from "./PendulunsManager";
 import { SpherePlayerManager } from "./SpherePlayerManager";
 import { SpherePlayer } from "./SpherePlayer";
+import { GravityType } from "../Controller/GravityType";
 
 export class Model implements IModel {
     private scene: Scene;
@@ -100,7 +101,6 @@ export class Model implements IModel {
     }
 
     public restartModels(){
-        //TODO: Implement high score.
         this.endGAme = false;
         this.roadManager.removeAllRoadBlocks();
         this.roadManager.initializeRoad();
@@ -116,4 +116,17 @@ export class Model implements IModel {
     public setEndGameCallback(callback: (isVisible: boolean) => void): void {
         this.endGameCallback = callback;
     }    
+
+    public setGravity(gravity: GravityType): void {
+        if (gravity === GravityType.Earth) {
+            this.scene.clearColor = Color4.FromHexString("#87CEEB");
+        } else if (gravity === GravityType.Moon) {
+            this.scene.clearColor = Color4.FromHexString("#090909");
+        } else if (gravity === GravityType.Jupiter) {
+            this.scene.clearColor = Color4.FromHexString("#A16D3F");;  // Laranja para Júpiter
+        }
+        this.scene.getPhysicsEngine().setGravity(new Vector3(0,gravity,0));
+        //TODO: Change colors of roads for each planet and moon.
+
+    }
 }

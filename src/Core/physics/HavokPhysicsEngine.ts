@@ -8,9 +8,8 @@ export class HavokPhysicsEngine   {
         });
 
         const hk = new HavokPlugin(true, havok);
-        //TODO: Create three levels: Earth, Moon and Jupiter.
         scene.enablePhysics(new Vector3(0, -9.8, 0), hk); //gravity
-        
+
         return hk;
     }
 }

@@ -1,4 +1,5 @@
 import { Mesh, Vector3 } from "@babylonjs/core";
+import { GravityType } from "../Controller/GravityType";
 
 export interface IModel {
     toggleMusicPlayback(): void;
@@ -7,4 +8,5 @@ export interface IModel {
     onSpherePlayerMeshReady(callback: (mesh: Mesh) => void): void; 
     restartModels(): void;
     setEndGameCallback(callback: (isVisible: boolean) => void): void;
+    setGravity(gravity: GravityType): void;
 }

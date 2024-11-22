@@ -3,12 +3,14 @@ import { Scene, Vector3, Mesh } from "@babylonjs/core";
 import { AdvancedDynamicTexture, Button, Rectangle, TextBlock } from "@babylonjs/gui";
 import { IView } from "./IView";
 import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
-//TODO: Display pendulum variables in the GUI for the physics simulation.
+
 export class View implements IView {
     private scene: Scene;
     public advancedTexture: AdvancedDynamicTexture;
     private rectangleMenu: Rectangle;
     private buttonMenuStart: Button;
+    private buttonMenuMoon: Button;
+    private buttonMenuJupiter: Button;
     private buttonMenuContinuar: Button;
     private buttonMenu: Button;
     private textblockLevel: TextBlock;
@@ -31,6 +33,7 @@ export class View implements IView {
 
     private textblockScoreGame: TextBlock;
     private textblockCenterPhrase: TextBlock;
+    private textblockSecond: TextBlock;
 
     constructor(scene: Scene, advancedTexture: AdvancedDynamicTexture) {
         this.scene = scene;
@@ -45,6 +48,8 @@ export class View implements IView {
 
     private initializeGUI() {
         this.buttonMenuStart = this.advancedTexture.getControlByName("ButtonMenuStart") as Button;
+        this.buttonMenuMoon = this.advancedTexture.getControlByName("ButtonMenuStartMoon") as Button;
+        this.buttonMenuJupiter = this.advancedTexture.getControlByName("ButtonMenuStartJupiter") as Button;
         this.buttonMenu = this.advancedTexture.getControlByName("ButtonMenu") as Button;
         this.buttonMenu.isVisible = false;
         this.buttonMenuContinuar = this.advancedTexture.getControlByName("ButtonMenuContinuar") as Button;        
@@ -76,6 +81,7 @@ export class View implements IView {
         this.textblockScoreGame = this.advancedTexture.getControlByName("TextblockScoreGame") as TextBlock;
         this.textblockCenterPhrase = this.advancedTexture.getControlByName("TextblockCenterPhrase") as TextBlock;
         this.textblockCenterPhrase.isVisible = false;
+        this.textblockSecond = this.advancedTexture.getControlByName("TextblockSecond") as TextBlock;
     }
 
     public updateMainMenuVisibility(isVisible: boolean) {
@@ -90,6 +96,12 @@ export class View implements IView {
 
     public onButtonMenuStart(callback: () => void): void {
         this.buttonMenuStart.onPointerUpObservable.add(callback);
+    }
+    public onButtonMenuMoon(callback: () => void): void {
+        this.buttonMenuMoon.onPointerUpObservable.add(callback);
+    }
+    public onButtonMenuJupiter(callback: () => void): void {
+        this.buttonMenuJupiter.onPointerUpObservable.add(callback);
     }
     public onButtonMenuContinuar(callback: () => void): void {
         this.buttonMenuContinuar.onPointerUpObservable.add(callback);

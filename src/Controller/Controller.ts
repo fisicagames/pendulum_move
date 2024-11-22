@@ -1,8 +1,9 @@
-// src/Controller/Controller.ts
 import { Scene, Vector3, Mesh, FollowCamera } from "@babylonjs/core";
 import { IModel } from "../Model/IModel";
 import { IView } from "../View/IView";
 import { CameraController } from "./CameraController";
+import { GravityType } from "./GravityType";
+
 
 export class Controller {
     private scene: Scene;
@@ -49,8 +50,10 @@ export class Controller {
     }
     private setupControls() {
 
-        this.view.onButtonMenuStart(() => this.startGame());
-        this.view.onButtonMenuContinuar(() => this.startGame());
+        this.view.onButtonMenuMoon(() => this.startGame(GravityType.Moon));
+        this.view.onButtonMenuJupiter(() => this.startGame(GravityType.Jupiter));
+        this.view.onButtonMenuStart(() => this.startGame(GravityType.Earth));
+        this.view.onButtonMenuContinuar(() => this.continueGame());
         this.view.onButtonMenu(() => this.showMenu());
         this.view.onToggleMusic(() => this.toggleMusic());
         this.view.onButtonLang(() => this.changeLanguage());
@@ -82,12 +85,15 @@ export class Controller {
         }
     }
 
-    private startGame(): void {
+    private startGame(gravity: GravityType): void {
+        this.model.setGravity(gravity);
+        this.continueGame();
+    }
+    private continueGame(){
         this.model.restartModels();
         this.view.updateMainMenuVisibility(false);        
         this.view.showEndGamePanel(false);
-        this.view.updateScoreText(0);
-
+        this.view.updateScoreText(0);        
     }
 
     private showMenu(): void {
