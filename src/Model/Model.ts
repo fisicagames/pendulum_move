@@ -1,4 +1,4 @@
-import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh, Color4 } from "@babylonjs/core";
+import { Scene, HavokPlugin, KeyboardEventTypes, Vector3, Mesh, Color4, Color3 } from "@babylonjs/core";
 import { IModel } from "./IModel";
 import { SoundLoader } from "../Core/SoundLoader";
 import { RoadsManager } from "./RoadsManager";
@@ -119,14 +119,15 @@ export class Model implements IModel {
 
     public setGravity(gravity: GravityType): void {
         if (gravity === GravityType.Earth) {
-            this.scene.clearColor = Color4.FromHexString("#87CEEB");
+            this.scene.clearColor = Color4.FromHexString("#5A9BD5");
+            this.roadManager.setRoadColors(Color3.FromHexString("#8FB846"), Color3.FromHexString("#64951F"));
         } else if (gravity === GravityType.Moon) {
             this.scene.clearColor = Color4.FromHexString("#090909");
+            this.roadManager.setRoadColors(Color3.FromHexString("#A9A9A9"), Color3.FromHexString("#696969")); 
         } else if (gravity === GravityType.Jupiter) {
-            this.scene.clearColor = Color4.FromHexString("#A16D3F");;  // Laranja para Júpiter
+            this.scene.clearColor = Color4.FromHexString("#A16D3F");
+            this.roadManager.setRoadColors(Color3.FromHexString("#8B4513"), Color3.FromHexString("#D2691E")); // Marrom e marrom alaranjado
         }
         this.scene.getPhysicsEngine().setGravity(new Vector3(0,gravity,0));
-        //TODO: Change colors of roads for each planet and moon.
-
     }
 }

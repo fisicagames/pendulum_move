@@ -18,13 +18,11 @@ export class RoadsManager {
 
     private initializeMaterials(): void {
         this.lightMaterial = new StandardMaterial("lightMaterial", this.scene);
-        this.lightMaterial.diffuseColor = new Color3(118/210, 152/210, 58/210);
         this.lightMaterial.reflectionTexture = null;
         this.lightMaterial.refractionTexture = null;
         this.lightMaterial.needDepthPrePass = false;  
 
         this.darkMaterial = new StandardMaterial("darkMaterial", this.scene);
-        this.darkMaterial.diffuseColor = new Color3(83/210, 123/210, 26/210);
         this.darkMaterial.reflectionTexture = null;
         this.darkMaterial.refractionTexture = null;
         this.darkMaterial.needDepthPrePass = false;  
@@ -72,5 +70,11 @@ export class RoadsManager {
         });
     
         this.roadBlocks = [];
+    }
+
+    public setRoadColors(lightColor: Color3, darkColor: Color3): void {
+        console.log("asdf")
+        this.lightMaterial.diffuseColor = lightColor;
+        this.darkMaterial.diffuseColor = darkColor;
     }
 }

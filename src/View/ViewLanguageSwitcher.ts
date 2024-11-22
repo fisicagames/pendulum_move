@@ -1,4 +1,3 @@
-// src/shared/LanguageManager.ts
 import { AdvancedDynamicTexture, TextBlock, Button } from "@babylonjs/gui";
 
 export class ViewLanguageSwitcher {
@@ -6,7 +5,8 @@ export class ViewLanguageSwitcher {
     private _strings: Record<string, string[]>;
 
     constructor() {
-        this._lang = 0; // Default language is Portuguese
+        //TODO: Implement language option: Portugues and English.
+        this._lang = 0;
         this._strings = {
             ButtonLang: ["ENGLISH", "PORTUGUÊS"],
             TextblockMeta: ["Objetivo: Incline o plano para lançar a caixa até o próximo plano à direita! Use os botões + e -  na tela ou as teclas direita e esquerda no teclado.", "Objective: Incline the platform to launch the box to the next platform! Use the + and - screen buttons or the right/left keys on the keyboard."],
