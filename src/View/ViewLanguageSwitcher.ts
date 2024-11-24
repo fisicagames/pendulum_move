@@ -9,12 +9,15 @@ export class ViewLanguageSwitcher {
         this._lang = 0;
         this._strings = {
             ButtonLang: ["ENGLISH", "PORTUGUÊS"],
-            TextblockMeta: ["Objetivo: Incline o plano para lançar a caixa até o próximo plano à direita! Use os botões + e -  na tela ou as teclas direita e esquerda no teclado.", "Objective: Incline the platform to launch the box to the next platform! Use the + and - screen buttons or the right/left keys on the keyboard."],
-            TextblockTitle: ["Força de Destaque", "Breakawy Force"], 
-            ButtonMenuStart: ["Iniciar", "Start"],
+            TextblockMeta: ["Objetivo: chute a bola e marque gols desviando dos pêndulos.", "Kick the ball and score goals while avoiding the pendulums."],
+            TextblockTitle: ["Pendulum Goal", "Pendulum Goal"], 
+            ButtonMenuStart: ["Terra: g = 9,8 m/s²", "Earth: g = 9.8 m/s²"],
+            ButtonMenuStartMoon: ["Lua: g = 1,6 m/s²", "Moon: g = 1.6 m/s²"],
+            ButtonMenuStartJupiter: ["Júpiter: g = 24,8 m/s²", "Jupiter: g = 24.8 m/s²"],
             TextblockMenuScore: ["Maior pontuação:", "High Score:"],
-            TextBlockMiddle: ["Coeficientes de atrito estático e cinético:","Static and kinetic friction coefficients:" ],
-            TextBlockHeigh: ["O vetor cinza é a força resultante!","The gray vector is the net force!"],
+            TextblockSecond: ["O pêndulo maior tem 22 m e o menor 6 m.", "Larger pendulum is 22 m, smaller is 6 m." ],
+            TextBlockThird: ["T: período (s), L: comprimento (m).","T: period (s), L: length (m)."],
+            TextBlockQuarter: ["g: aceleração da gravidade (m/s²).","g: gravitational acceleration (m/s²)."],
             ButtonMenuContinuar: ["Reiniciar","Restart"],
             TextblockScoreGame: ["Pontos:  000","Points: 000"],
             TextblockMusic: ["Música:","Music:"]
