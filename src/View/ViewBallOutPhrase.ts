@@ -1,6 +1,6 @@
 export class ViewBallOutPhrase {
-    public static getRandomBallOutPhrase(): string {
-        const phrases = [
+    public static getRandomBallOutPhrase(languageOption: number): string {
+        const phrasesPt = [
             "⚽ Bola Fora! 🚫",
             "⚽❌ Fora!",
             "🥅 ➡️ Bola Fora!",
@@ -18,6 +18,28 @@ export class ViewBallOutPhrase {
             "🚫⚽🌀 Desastre! Bola Fora!"
         ];
 
-        return phrases[Math.floor(Math.random() * phrases.length)];
+        const phrasesEn = [
+            "⚽ Ball Out! 🚫",
+            "⚽❌ Out!",
+            "🥅 ➡️ Ball Out!",
+            "⚽⬅️ Out of the Game!",
+            "🚩⚽ Ball Out!",
+            "⚽🙀 Oops! Ball Out!",
+            "⚽💨❌ Out!",
+            "🛑⚽ Out of the field!",
+            "😬⚽ It went out!",
+            "⚽🤦‍♂️ Ball Out!",
+            "🏃‍♂️⚽💥 Way off the mark!",
+            "💢⚽ Out of the Area!",
+            "🎯❌ Missed! Ball Out!",
+            "⚽✨ Out of Control!",
+            "🚫⚽🌀 Disaster! Ball Out!"
+        ];
+
+        if (languageOption === 1) {
+            return phrasesEn[Math.floor(Math.random() * phrasesEn.length)];
+        } else {
+            return phrasesPt[Math.floor(Math.random() * phrasesPt.length)];
+        }
     }
 }

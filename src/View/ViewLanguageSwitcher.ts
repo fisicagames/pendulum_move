@@ -1,13 +1,13 @@
 import { AdvancedDynamicTexture, TextBlock, Button } from "@babylonjs/gui";
 
 export class ViewLanguageSwitcher {
-    private _lang: number;
-    private _strings: Record<string, string[]>;
+    public languageOption: number;
+    private strings: Record<string, string[]>;
 
     constructor() {
         //TODO: Implement language option: Portugues and English.
-        this._lang = 0;
-        this._strings = {
+        this.languageOption = 0;
+        this.strings = {
             ButtonLang: ["ENGLISH", "PORTUGUÊS"],
             TextblockMeta: ["Objetivo: chute a bola e marque gols desviando dos pêndulos.", "Kick the ball and score goals while avoiding the pendulums."],
             TextblockTitle: ["Pendulum Goal", "Pendulum Goal"], 
@@ -25,30 +25,30 @@ export class ViewLanguageSwitcher {
     }
 
     public changeLanguage(advancedTexture: AdvancedDynamicTexture): void {
-        this._lang = this._lang === 0 ? 1 : 0;
+        this.languageOption = this.languageOption === 0 ? 1 : 0;
         this.updateText(advancedTexture);
     }
 
     public updateText(advancedTexture: AdvancedDynamicTexture): void {
-        for (const key in this._strings) {
-            if (this._strings.hasOwnProperty(key)) {
-                const translations = this._strings[key];
+        for (const key in this.strings) {
+            if (this.strings.hasOwnProperty(key)) {
+                const translations = this.strings[key];
                 const control = advancedTexture.getControlByName(key);
 
                 if (control instanceof TextBlock) {
-                    control.text = translations[this._lang];
+                    control.text = translations[this.languageOption];
                 } else if (control instanceof Button) {
-                    control.textBlock.text = translations[this._lang];
+                    control.textBlock.text = translations[this.languageOption];
                 }
             }
         }
     }
 
     public getCurrentLanguage(): number {
-        return this._lang;
+        return this.languageOption;
     }
 
     public getTranslation(key: string): string {
-        return this._strings[key][this._lang];
+        return this.strings[key][this.languageOption];
     }
 }

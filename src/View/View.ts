@@ -157,7 +157,7 @@ export class View implements IView {
         this.textblockLevel.text = `Goals: ` + this.getScoreDisplay(newScore);
         //TODO: Remove next two lines for run only when endGame event. Send to show end game?
         this.textblockTotalScore.text = `Goals: ` + this.getScoreDisplay(newScore) + ` 🏆`;
-        this.textblockScoreGame.text = ViewBallOutPhrase.getRandomBallOutPhrase();
+        this.textblockScoreGame.text = ViewBallOutPhrase.getRandomBallOutPhrase(this.languageSwitcher.languageOption);
         if(this.topScore < newScore) {
             this.topScore = newScore;
             this.textblockMenuBest.text = this.getScoreDisplay(newScore) + ` 🏆`;
@@ -180,7 +180,7 @@ export class View implements IView {
         this.rectangleGame.isVisible = isVisible;
         if(isVisible && !this.textblockCenterPhrase.isVisible) {
             this.textblockCenterPhrase.isVisible = isVisible;    
-            this.textblockCenterPhrase.text = ViewPendulumPhrase.getRandomPendulumPhrase();
+            this.textblockCenterPhrase.text = ViewPendulumPhrase.getRandomPendulumPhrase(this.languageSwitcher.languageOption);
         }
         else{
             this.textblockCenterPhrase.isVisible = isVisible;
