@@ -5,6 +5,7 @@ import { IView } from "./IView";
 import { ViewLanguageSwitcher } from "./ViewLanguageSwitcher";
 import { ViewBallOutPhrase } from "./ViewBallOutPhrase";
 import { ViewPendulumPhrase } from "./ViewPendulumPhrase";
+import { LanguageManager } from "./LanguageDetector";
 
 export class View implements IView {
     private scene: Scene;
@@ -42,6 +43,8 @@ export class View implements IView {
         this.advancedTexture = advancedTexture;
         this.languageSwitcher = new ViewLanguageSwitcher();
         this.initializeGUI();
+        //Feature added on 2024-12-14: Automatically set the language based on the browser's settings.
+        LanguageManager.detectAndSetLanguage(() => this.changeLanguage());
     }
 
     public changeLanguage(): void {
