@@ -161,7 +161,7 @@ export class View implements IView {
         //TODO: Remove next two lines for run only when endGame event. Send to show end game?
         this.textblockTotalScore.text = `Goals: ` + this.getScoreDisplay(newScore) + ` 🏆`;
         this.textblockScoreGame.text = ViewBallOutPhrase.getRandomBallOutPhrase(this.languageSwitcher.languageOption);
-        if(this.topScore < newScore) {
+        if(this.topScore < newScore && !this.rectangleMenu.isVisible) {
             this.topScore = newScore;
             this.textblockMenuBest.text = this.getScoreDisplay(newScore) + ` 🏆`;
         }
