@@ -1,33 +1,33 @@
 export class ViewPendulumPhrase {
     public static getRandomPendulumPhrase(languageOption: number): string {
         const phrasesPt = [
-            "⏱️ O período de oscilação de um pêndulo simples depende unicamente do comprimento do fio e da aceleração da gravidade.",
-            "⚖️ Quanto maior o comprimento do fio (L), maior será o período do pêndulo (T), pois T = 2π√(L/g).",
-            "🌍 A aceleração da gravidade (g) afeta diretamente o tempo de oscilação: em planetas com menor gravidade, o período aumenta.",
-            "📏 A equação do período de um pêndulo simples é T = 2π√(L/g), onde L é o comprimento do fio e g é a aceleração da gravidade.",
-            "⚙️ O movimento do pêndulo é considerado harmônico simples quando o ângulo de oscilação é pequeno (menor que 15°).",
-            "💨 A resistência do ar pode diminuir a amplitude do pêndulo ao longo do tempo, mas não altera o período em grandezas pequenas.",
-            "🪝 O período de oscilação de um pêndulo não depende da sua amplitude, desde que o ângulo de oscilação seja pequeno.",
-            "🔄 O movimento do pêndulo é um exemplo clássico de conversão de energia potencial gravitacional em energia cinética e vice-versa.",
-            "🌐 Em um pêndulo simples, a aceleração da gravidade (g) determina a rapidez com que o pêndulo oscila, fazendo com que em Júpiter o período seja menor que na Terra.",
-            "🔬 A relação entre o comprimento do fio e o período é diretamente proporcional à raiz quadrada, ou seja, dobrando o comprimento, o período aumenta por √2.",
-            "📊 A amplitude inicial de um pêndulo simples (para pequenos ângulos) não influencia o tempo de oscilação, apenas o deslocamento angular.",
-            "⚖️ A energia potencial máxima do pêndulo ocorre na sua altura máxima e é convertida completamente em energia cinética no ponto mais baixo."
+            "O período de oscilação de um pêndulo simples depende do comprimento do fio e da aceleração da gravidade.",
+            "Quanto maior o comprimento do fio (L), maior será o período do pêndulo (T), conforme T = 2π√(L/g).",
+            "A aceleração da gravidade (g) afeta diretamente o período de oscilação: em planetas com menor gravidade, o período é maior.",
+            "A fórmula do período de um pêndulo simples é T = 2π√(L/g), onde L é o comprimento do fio e g é a aceleração da gravidade.",
+            "O movimento do pêndulo é harmônico simples quando o ângulo de oscilação é pequeno, geralmente inferior a 15 graus.",
+            "A resistência do ar pode reduzir a amplitude do pêndulo ao longo do tempo, mas não altera significativamente o período para oscilações pequenas.",
+            "O período de oscilação de um pêndulo não depende da amplitude, desde que o ângulo de oscilação seja pequeno.",
+            "O movimento do pêndulo exemplifica a conversão entre energia potencial gravitacional e energia cinética.",
+            "Em um pêndulo simples, a aceleração da gravidade (g) determina a frequência das oscilações, resultando em períodos menores em planetas com maior gravidade.",
+            "O comprimento do fio e o período do pêndulo são proporcionais à raiz quadrada, de modo que, ao dobrar o comprimento, o período aumenta por um fator de √2.",
+            "A amplitude inicial de um pêndulo simples, para pequenos ângulos, não influencia o período, mas determina o deslocamento angular.",
+            "A energia potencial máxima do pêndulo ocorre na posição de altura máxima e é completamente convertida em energia cinética na posição mais baixa."
         ];
 
         const phrasesEn = [
-            "⏱️ The oscillation period of a simple pendulum depends solely on the length of the string and the acceleration due to gravity.",
-            "⚖️ The longer the string (L), the longer the pendulum's period (T), since T = 2π√(L/g).",
-            "🌍 The acceleration due to gravity (g) directly affects the oscillation time: on planets with lower gravity, the period increases.",
-            "📏 The period equation of a simple pendulum is T = 2π√(L/g), where L is the length of the string and g is the acceleration due to gravity.",
-            "⚙️ The pendulum's motion is considered simple harmonic when the oscillation angle is small (less than 15°).",
-            "💨 Air resistance can reduce the amplitude of the pendulum over time but does not alter the period for small magnitudes.",
-            "🪝 The oscillation period of a pendulum does not depend on its amplitude as long as the oscillation angle is small.",
-            "🔄 The motion of the pendulum is a classic example of the conversion of gravitational potential energy into kinetic energy and vice versa.",
-            "🌐 In a simple pendulum, the acceleration due to gravity (g) determines the speed at which the pendulum swings, meaning on Jupiter the period is shorter than on Earth.",
-            "🔬 The relationship between the string length and the period is directly proportional to the square root, meaning doubling the length increases the period by √2.",
-            "📊 The initial amplitude of a simple pendulum (for small angles) does not influence the oscillation time, only the angular displacement.",
-            "⚖️ The maximum potential energy of the pendulum occurs at its highest point and is completely converted into kinetic energy at the lowest point."
+            "The oscillation period of a simple pendulum depends on the string length and the acceleration due to gravity.",
+            "The longer the string (L), the longer the pendulum's period (T), as given by T = 2π√(L/g).",
+            "The acceleration due to gravity (g) directly influences the period: on planets with lower gravity, the period increases.",
+            "The formula for the period of a simple pendulum is T = 2π√(L/g), where L is the string length and g is the acceleration due to gravity.",
+            "The motion of a pendulum is simple harmonic when the oscillation angle is small, typically less than 15 degrees.",
+            "Air resistance can reduce the pendulum's amplitude over time but does not significantly affect the period for small oscillations.",
+            "The oscillation period of a pendulum does not depend on its amplitude, provided the oscillation angle remains small.",
+            "The motion of a pendulum is a classic example of energy conversion between gravitational potential energy and kinetic energy.",
+            "In a simple pendulum, the acceleration due to gravity (g) determines the oscillation frequency, resulting in shorter periods on planets with higher gravity.",
+            "The string length and period of a pendulum are proportional to the square root, so doubling the length increases the period by a factor of √2.",
+            "The initial amplitude of a simple pendulum, for small angles, does not affect the period but determines the angular displacement.",
+            "The maximum potential energy of the pendulum is at its highest point and is fully converted to kinetic energy at its lowest point."
         ];
 
         if (languageOption === 1) {
