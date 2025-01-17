@@ -8,7 +8,7 @@ export class ViewPendulumPhrase {
             "O movimento do pêndulo é harmônico simples quando o ângulo de oscilação é pequeno, geralmente inferior a 15 graus.",
             "A resistência do ar pode reduzir a amplitude do pêndulo ao longo do tempo, mas não altera significativamente o período para oscilações pequenas.",
             "O período de oscilação de um pêndulo não depende da amplitude, desde que o ângulo de oscilação seja pequeno.",
-            "O movimento do pêndulo exemplifica a conversão entre energia potencial gravitacional e energia cinética.",
+            "O movimento do pêndulo simples é um exemplo clássico da conversão entre energia potencial gravitacional e energia cinética.",
             "Em um pêndulo simples, a aceleração da gravidade (g) determina a frequência das oscilações, resultando em períodos menores em planetas com maior gravidade.",
             "O comprimento do fio e o período do pêndulo são proporcionais à raiz quadrada, de modo que, ao dobrar o comprimento, o período aumenta por um fator de √2.",
             "A amplitude inicial de um pêndulo simples, para pequenos ângulos, não influencia o período, mas determina o deslocamento angular.",
