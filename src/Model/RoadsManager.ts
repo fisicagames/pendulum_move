@@ -73,7 +73,6 @@ export class RoadsManager {
     }
 
     public setRoadColors(lightColor: Color3, darkColor: Color3): void {
-        console.log("asdf")
         this.lightMaterial.diffuseColor = lightColor;
         this.darkMaterial.diffuseColor = darkColor;
     }

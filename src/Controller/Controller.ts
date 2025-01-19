@@ -87,6 +87,7 @@ export class Controller {
 
     private startGame(gravity: GravityType): void {
         this.model.setGravity(gravity);
+        this.model.backgroundMusic.play();
         this.continueGame();
     }
     private continueGame(){
@@ -97,6 +98,13 @@ export class Controller {
     }
 
     private showMenu(): void {
+        this.model.backgroundMusic.pause();
+           // Verifica se o SDK está disponível e exibe o banner
+           if (typeof sdk !== 'undefined' && typeof sdk.showBanner === 'function') {
+            sdk.showBanner();
+        } else {
+            console.warn("SDK não disponível ou não inicializado corretamente.");
+        }
         this.view.updateMainMenuVisibility(true);
         this.model.restartModels();
     }
